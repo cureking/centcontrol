@@ -14,7 +14,7 @@ import java.util.concurrent.TimeoutException;
  * @Author: jarry
  */
 @Slf4j
-public class rabbitMQPool {
+public class RabbitMQPool {
 
     private static ConnectionFactory factory;
 
