@@ -1,0 +1,31 @@
+
+rabbitmq:
+  server:
+    ip: localhost
+    post: 5672
+    name: guest
+    password: guest
+
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.renewable.centcontrol.pojo
+
+
+spring.datasource:
+  url: jdbc:mysql://47.92.249.250:3306/centcontrol?characterEncoding=utf-8
+  username: renewable
+  password: 123
+  driver-class-name: com.mysql.jdbc.Driver
+
+
+# logger
+logging:
+  file: logs/centcontrol.log
+info:
+  name: infoname
+
+# server
+server:
+  port: 8040

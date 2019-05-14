@@ -16,6 +16,13 @@ public class Const {
     public static final String SENSOR_REGISTER_PREFIX = "sensorRegister_";
 
 
+    //    分组，但是用枚举又显得过于繁重，故采用内部接口类来进行分组
+    public interface Role {
+        int ROLE_CUSTOMER = 0;    //普通用户
+        int ROLE_ADMIN = 1;   //管理员
+    }
+
+
     //传感器类型参数（即协议标识符）
     public interface SensorType {
         //注意要进行进制转换，后面可以写得优雅一下
@@ -75,6 +82,40 @@ public class Const {
     public static final int DEAL_SET_KEEP = 5;  //该类数据使用频度不高，数据量也不大（因为一般采用自动传输模式）不需要太过严格
     public static final int DEAL_SET_WAIT = 1;
 
+    //终端服务器状态
+    public enum TerminalStateEnum {
+
+
+        Running(0, "终端服务器正常运行中"),
+        Deleted(7, "终端服务器已删除");
+
+
+        private String value;
+        private Integer code;
+
+        TerminalStateEnum(int code, String value) {
+            this.code = code;
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public static TerminalStateEnum codeOf(int code) {
+            for (TerminalStateEnum dataCleanType : values()) {
+                if (dataCleanType.getCode() == code) {
+                    return dataCleanType;
+                }
+            }
+            log.warn("没有找到对应的枚举", code);
+            throw new RuntimeException("没有找到对应的枚举");    //这里由于是在java程序内，无页面响应。故将相关信息导入到日志中。这里抛出的异常由调用方处理
+        }
+    }
 
     //数据清洗类型
     public enum DataCleanType {

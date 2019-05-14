@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.renewable.centcontrol.dao.InclinationTotalMapper" >
-  <resultMap id="BaseResultMap" type="com.renewable.centcontrol.pojo.InclinationTotal" >
+<mapper namespace="com.renewable.centcontrol.dao.InclinationInitMapper" >
+  <resultMap id="BaseResultMap" type="com.renewable.centcontrol.pojo.InclinationInit" >
     <constructor >
       <idArg column="id" jdbcType="BIGINT" javaType="java.lang.Long" />
       <arg column="terminal_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -25,15 +25,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from inclination_total
+    from inclination_init
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from inclination_total
+    delete from inclination_init
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.renewable.centcontrol.pojo.InclinationTotal" >
-    insert into inclination_total (id, terminal_id, sensor_id, 
+  <insert id="insert" parameterType="com.renewable.centcontrol.pojo.InclinationInit" >
+    insert into inclination_init (id, terminal_id, sensor_id, 
       origin_id, angle_x, angle_y, 
       angle_total, direct_angle, angle_init_total, 
       direct_angle_init, temperature, version, 
@@ -44,8 +44,8 @@
       #{directAngleInit,jdbcType=DOUBLE}, #{temperature,jdbcType=DOUBLE}, #{version,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.renewable.centcontrol.pojo.InclinationTotal" >
-    insert into inclination_total
+  <insert id="insertSelective" parameterType="com.renewable.centcontrol.pojo.InclinationInit" >
+    insert into inclination_init
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -129,8 +129,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.renewable.centcontrol.pojo.InclinationTotal" >
-    update inclination_total
+  <update id="updateByPrimaryKeySelective" parameterType="com.renewable.centcontrol.pojo.InclinationInit" >
+    update inclination_init
     <set >
       <if test="terminalId != null" >
         terminal_id = #{terminalId,jdbcType=INTEGER},
@@ -171,8 +171,8 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.renewable.centcontrol.pojo.InclinationTotal" >
-    update inclination_total
+  <update id="updateByPrimaryKey" parameterType="com.renewable.centcontrol.pojo.InclinationInit" >
+    update inclination_init
     set terminal_id = #{terminalId,jdbcType=INTEGER},
       sensor_id = #{sensorId,jdbcType=INTEGER},
       origin_id = #{originId,jdbcType=BIGINT},
@@ -187,4 +187,30 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectList" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from inclination_init
+    where terminal_id = #{terminalId}
+    and sensor_id = #{sensorId}
+  </select>
+  <select id="selectListByTime" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from inclination_init
+    <![CDATA[
+    where create_time <=#{endTime}
+    ]]>
+    and create_time &gt;=#{startTime}
+    and terminal_id = #{terminalId}
+    and sensor_id = #{sensorId}
+  </select>
+  <select id="selectByTerminalAndSensor" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from inclination_init
+    where terminal_id = #{terminalId}
+    and sensor_id = #{sensorId}
+  </select>
 </mapper>

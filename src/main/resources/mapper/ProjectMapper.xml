@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.renewable.centcontrol.dao.ProductMapper" >
-  <resultMap id="BaseResultMap" type="com.renewable.centcontrol.pojo.Product" >
+<mapper namespace="com.renewable.centcontrol.dao.ProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.renewable.centcontrol.pojo.Project" >
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -16,21 +16,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from product
+    from enterprise_project
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from product
+    delete from enterprise_project
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.renewable.centcontrol.pojo.Product" >
-    insert into product (id, name, mark, 
+  <insert id="insert" parameterType="com.renewable.centcontrol.pojo.Project" >
+    insert into enterprise_project (id, name, mark, 
       create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.renewable.centcontrol.pojo.Product" >
-    insert into product
+  <insert id="insertSelective" parameterType="com.renewable.centcontrol.pojo.Project" >
+    insert into enterprise_project
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -66,8 +66,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.renewable.centcontrol.pojo.Product" >
-    update product
+  <update id="updateByPrimaryKeySelective" parameterType="com.renewable.centcontrol.pojo.Project" >
+    update enterprise_project
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -84,12 +84,18 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.renewable.centcontrol.pojo.Product" >
-    update product
+  <update id="updateByPrimaryKey" parameterType="com.renewable.centcontrol.pojo.Project" >
+    update enterprise_project
     set name = #{name,jdbcType=VARCHAR},
       mark = #{mark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from enterprise_project
+  </select>
 </mapper>

@@ -2,7 +2,7 @@ package com.renewable.centcontrol.pojo;
 
 import java.util.Date;
 
-public class Product {
+public class Project {
     private Integer id;
 
     private String name;
@@ -13,7 +13,7 @@ public class Product {
 
     private Date updateTime;
 
-    public Product(Integer id, String name, String mark, Date createTime, Date updateTime) {
+    public Project(Integer id, String name, String mark, Date createTime, Date updateTime) {
         this.id = id;
         this.name = name;
         this.mark = mark;
@@ -21,7 +21,7 @@ public class Product {
         this.updateTime = updateTime;
     }
 
-    public Product() {
+    public Project() {
         super();
     }
 

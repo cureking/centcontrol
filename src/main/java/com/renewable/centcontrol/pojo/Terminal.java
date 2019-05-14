@@ -5,7 +5,7 @@ import java.util.Date;
 public class Terminal {
     private Integer id;
 
-    private Integer productId;
+    private Integer projectId;
 
     private String ip;
 
@@ -15,17 +15,20 @@ public class Terminal {
 
     private String mark;
 
+    private Integer state;
+
     private Date createTime;
 
     private Date updateTime;
 
-    public Terminal(Integer id, Integer productId, String ip, String mac, String name, String mark, Date createTime, Date updateTime) {
+    public Terminal(Integer id, Integer projectId, String ip, String mac, String name, String mark, Integer state, Date createTime, Date updateTime) {
         this.id = id;
-        this.productId = productId;
+        this.projectId = projectId;
         this.ip = ip;
         this.mac = mac;
         this.name = name;
         this.mark = mark;
+        this.state = state;
         this.createTime = createTime;
         this.updateTime = updateTime;
     }
@@ -42,12 +45,12 @@ public class Terminal {
         this.id = id;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Integer getProjectId() {
+        return projectId;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
     }
 
     public String getIp() {
@@ -80,6 +83,14 @@ public class Terminal {
 
     public void setMark(String mark) {
         this.mark = mark == null ? null : mark.trim();
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 
     public Date getCreateTime() {

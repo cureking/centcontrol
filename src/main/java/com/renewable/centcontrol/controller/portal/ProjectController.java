@@ -1,7 +1,9 @@
-package com.renewable.centcontrol.controller;
+package com.renewable.centcontrol.controller.portal;
 
 import com.github.pagehelper.PageInfo;
 import com.renewable.centcontrol.common.ServerResponse;
+import com.renewable.centcontrol.service.IProjectService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,20 +15,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @Author: jarry
  */
 @Controller
-@RequestMapping("/product/")
-public class ProductController {
+@RequestMapping("/project/")
+public class ProjectController {
 
-    @RequestMapping(value = "get_list.do",method = RequestMethod.GET)
+    @Autowired
+    private IProjectService iProjectService;
+
+
+    @RequestMapping(value = "list_project_page.do",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse<PageInfo> getList(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+    public ServerResponse<PageInfo> listProjectByPage(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        return null;
+        return iProjectService.listByPage(pageNum,pageSize);
     }
 
-    @RequestMapping(value = "get_detail.do",method = RequestMethod.GET)
+    @RequestMapping(value = "get_project_id.do",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse getDetail(int productId){
-        return null;
+    public ServerResponse getProjectById(int projectId){
+        return iProjectService.getProject(projectId);
     }
 
     //增减改，暂时不需要

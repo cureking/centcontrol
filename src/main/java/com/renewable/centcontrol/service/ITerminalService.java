@@ -2,6 +2,7 @@ package com.renewable.centcontrol.service;
 
 import com.github.pagehelper.PageInfo;
 import com.renewable.centcontrol.common.ServerResponse;
+import com.renewable.centcontrol.pojo.Terminal;
 
 /**
  * @Description：
@@ -9,5 +10,14 @@ import com.renewable.centcontrol.common.ServerResponse;
  */
 public interface ITerminalService {
 
-    ServerResponse<PageInfo> getList(int pageNum,int pageSize,int productId);
+    ServerResponse<PageInfo> listByPage(int pageNum,int pageSize,int projectId);
+
+    ServerResponse getTerminal(int terminalId);
+
+    ServerResponse createTerminal(Terminal terminal);
+
+    ServerResponse updateTerminal(Terminal terminal);
+
+    ServerResponse deleteTerminal(int terminalId);
+
 }

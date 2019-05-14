@@ -1,5 +1,12 @@
 #  ICentControl
 
+[![AUR](https://img.shields.io/apm/l/vim-mode.svg)](https://github.com/cureking/centcontrol)
+[![](https://img.shields.io/badge/Author-Jarry-orange.svg)](https://www.cnblogs.com/Tiancheng-Duan/)
+[![](https://img.shields.io/badge/version-0.2-brightgreen.svg)](https://github.com/cureking/centcontrol)
+[![GitHub stars](https://img.shields.io/github/forks/cureking/centcontrol.svg?style=social&label=Stars)](https://github.com/cureking/centcontrol)
+[![GitHub forks](https://img.shields.io/github/forks/cureking/centcontrol.svg?style=social&label=Fork)](https://github.com/cureking/centcontrol)
+
+
 该项目是瑞纽宝科技有限公司“工业物联网”的组成部分之一，也是“工业物联网”系统的第二个子系统。
 
 该系统顾名思义，位于企业中控室，也是企业级项目信息系统的顶层系统（尤其是部分不对外连接云平台的企业），故又被称为企业服务器。
