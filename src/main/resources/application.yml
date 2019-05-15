@@ -5,6 +5,19 @@ rabbitmq:
     post: 5672
     name: guest
     password: guest
+    virtual-host: /
+    connection-timeout: 15000
+
+# rabbitmq 消费端配置
+spring:
+  rabbitmq:
+    listener:
+      simple:
+        concurrency: 5
+        max-concurrency: 10
+        acknowledge-mode: manual
+#       限流
+        prefetch: 1
 
 
 mybatis:
