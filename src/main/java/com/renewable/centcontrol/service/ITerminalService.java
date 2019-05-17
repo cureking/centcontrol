@@ -20,4 +20,6 @@ public interface ITerminalService {
 
     ServerResponse deleteTerminal(int terminalId);
 
+    ServerResponse getTerminalFromRabbitmq(Terminal terminal);
+
 }

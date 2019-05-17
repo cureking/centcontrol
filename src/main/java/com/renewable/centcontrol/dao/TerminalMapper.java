@@ -25,7 +25,11 @@ public interface TerminalMapper {
 
     Terminal selectByIp(String ip);
 
+    Terminal selectByMacWithoutDelete(String mac);
+
     int countByIp(String ip);
 
     int countByPrimaryKey(int id);
+
+    int insertNoPrimaryKey(Terminal terminal);
 }

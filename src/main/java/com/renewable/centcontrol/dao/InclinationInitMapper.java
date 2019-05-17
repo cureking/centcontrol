@@ -25,4 +25,6 @@ public interface InclinationInitMapper {
     List<InclinationInit> selectListByTime(@Param("startTime") Date startTime, @Param("endTime") Date endTime, @Param("terminalId") int terminalId, @Param("sensorId")int sensorId);
 
     InclinationInit selectByTerminalAndSensor(@Param("terminalId") int terminalId, @Param("sensorId")int sensorId);
+
+    int insertList(@Param("inclinationTotalList") List<InclinationInit> inclinationTotalList);
 }

@@ -213,4 +213,19 @@
     where terminal_id = #{terminalId}
     and sensor_id = #{sensorId}
   </select>
+  <insert id="insertList" parameterType="list">
+    insert into inclination_init (id, terminal_id, sensor_id,
+    origin_id, angle_x, angle_y,
+    angle_total, direct_angle, angle_init_total,
+    direct_angle_init, temperature, version,
+    create_time)
+    values
+    <foreach collection="inclinationTotalList" index="index" item="item" separator=",">
+      (#{item.id}, #{item.terminalId}, #{item.sensorId},
+      #{item.originId}, #{item.angleX}, #{item.angleY},
+      #{item.angleTotal}, #{item.directAngle}, #{item.angleInitTotal},
+      #{item.directAngleInit}, #{item.temperature}, #{item.version},
+      #{item.createTime})
+    </foreach>
+  </insert>
 </mapper>

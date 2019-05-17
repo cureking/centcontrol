@@ -2,6 +2,8 @@ package com.renewable.centcontrol.service;
 
 import com.github.pagehelper.PageInfo;
 import com.renewable.centcontrol.common.ServerResponse;
+import com.renewable.centcontrol.pojo.InclinationInit;
+import com.renewable.centcontrol.pojo.InclinationTotal;
 
 import java.util.List;
 
@@ -22,5 +24,9 @@ public interface IInclinationService {
     ServerResponse<List<Object>> listTotalDataByTime(String startTime, String endTime, int terminalId, int sensorId);
 
     ServerResponse getTotalDataById(long inclinationTotalId);
+
+    ServerResponse insertTotalDataByList(List<InclinationTotal> inclinationTotalList);
+
+    ServerResponse insertInitDataByList(List<InclinationInit> inclinationInitList);
 
 }

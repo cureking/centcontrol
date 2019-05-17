@@ -33,7 +33,7 @@
       create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, 
       #{mac,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.renewable.centcontrol.pojo.Terminal" >
     insert into terminal
@@ -89,10 +89,10 @@
         #{state,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
     </trim>
   </insert>
@@ -121,7 +121,7 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = now(),
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -135,7 +135,7 @@
       mark = #{mark,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -145,23 +145,20 @@
     from terminal
     where project_id = #{projectId}
   </select>
-  <!--<select id="countClashed" parameterType="map" resultType="int">-->
-      <!--select-->
-      <!--count(1)-->
-      <!--from (-->
-      <!--select-->
-      <!--id,ip,mac-->
-      <!--from terminal-->
-      <!--where state = #{stateCode}-->
-      <!--) as running_terminal-->
-      <!--where id = #{id} or ip = #{ip} or mac = #{mac}-->
-  <!--</select>-->
+
     <select id="selectByIp" parameterType="string" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from terminal
         where ip = #{ip}
     </select>
+  <select id="selectByMacWithoutDelete" parameterType="string" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from terminal
+    where mac = #{mac}
+    and state != 7
+  </select>
     <select id="countByIp" parameterType="string" resultType="int">
         select
         count(1)
@@ -174,4 +171,12 @@
         from terminal
         where id = #{id}
     </select>
+  <insert id="insertNoPrimaryKey">
+      insert into terminal (project_id, ip,
+      mac, name, mark, state,
+      create_time, update_time)
+      values (#{projectId,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR},
+      #{mac,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER},
+      now(), now())
+  </insert>
 </mapper>

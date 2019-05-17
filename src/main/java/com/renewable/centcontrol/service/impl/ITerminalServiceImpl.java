@@ -6,11 +6,16 @@ import com.renewable.centcontrol.common.Const;
 import com.renewable.centcontrol.common.ServerResponse;
 import com.renewable.centcontrol.dao.TerminalMapper;
 import com.renewable.centcontrol.pojo.Terminal;
+import com.renewable.centcontrol.rabbitmq.producer.TerminalProducer;
 import com.renewable.centcontrol.service.ITerminalService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 /**
  * @Description：
@@ -21,6 +26,9 @@ public class ITerminalServiceImpl implements ITerminalService {
 
     @Autowired
     private TerminalMapper terminalMapper;
+
+    @Autowired
+    private TerminalProducer terminalProducer;
 
 
     @Override
@@ -124,6 +132,91 @@ public class ITerminalServiceImpl implements ITerminalService {
 //        }
         ServerResponse response = this.changeState(terminalId, Const.TerminalStateEnum.Deleted.getCode());
         return response;
+    }
+
+    /**
+     * 负责将终端服务器发上来的TerminalConfig，与现有数据对比。如果不存在，就执行插入操作，并返回该数据。如果存在，就要根据数据的update_time来确定是否更新配置
+     * 只有一条MQ执行，终端服务器，只有确定是自己的配置信息后，才会更新自己配置，并返回ACK。
+     * 别忘了，之后要对部分消息队列的队列进行时间限制（避免无意义的消耗消费者资源），或者设置拒绝后的数据不再接收。（其中会存在一定操作失误性，如终端服务器无法根据原始Terminal，来进行部分数据的接收，但是这个时间会很短）
+     * @param uploadedTerminal
+     * @return
+     */
+    @Override
+    public ServerResponse getTerminalFromRabbitmq(Terminal uploadedTerminal) {
+        // 1.校验terminal数据
+        if (uploadedTerminal == null){
+            return ServerResponse.createByErrorMessage("the terminal is null !");
+        }
+
+
+        // 2.原始数据ID不用管了（之后可以扩展开来做二次验证，但现在不用那么严谨，就是8个9与9个9的可用性差别）
+        // 直接根据现有数据库是否有对应MAC来确定，该数据是否在数据库中有对应数据。没有，则进行插入处理。有，则进行更新判断。
+        String uploadedMac = uploadedTerminal.getMac();
+        if (uploadedMac == null){
+            return ServerResponse.createByErrorMessage("the mac of terminal is null !");
+        }
+
+        // 事务-原子性   // 当多个相同MAC的请求到达时，会出现问题，下式左边为单个结果，右边为多个结果（List）。这是因为多个程序进行了插入操作。（话说Spring不是默认单例嘛？另外，rabbit自动实现并发了？那么这里怎么解决呢？
+        Terminal existedTerminal = terminalMapper.selectByMacWithoutDelete(uploadedMac);
+
+        if (existedTerminal == null){
+            // 3.数据库不存在对应数据，进行插入操作
+
+            int countRow = terminalMapper.insertNoPrimaryKey(uploadedTerminal);
+
+            if (countRow == 0){
+                return ServerResponse.createByErrorMessage("insert terminal fail !");
+            }
+        }
+        if (existedTerminal != null){
+            // 4.数据库存在对应数据，先判断那个记录时间更新，然后，将最新的数据更新到数据库
+            Date uploadedTerminalDate = uploadedTerminal.getUpdateTime();
+            Date existedTerminalDate = existedTerminal.getUpdateTime();
+
+            if (uploadedTerminalDate.after(existedTerminalDate)){
+                // 从效率上来说，那两个函数的源码内部，与.getTime()一样，底层最终都是利用getTimeInMillis()来进行对比的
+                // 5. 上传的数据比较新，将新的数据插入数据库。（如果上传的更老，那就不需要进行处理）
+                Terminal updateTerminal = new Terminal();
+                updateTerminal = uploadedTerminal;      // 这里就快速写，其实可以进行assemble()
+                updateTerminal.setId(existedTerminal.getId());
+
+                int countRow = terminalMapper.updateByPrimaryKeySelective(updateTerminal);
+                if (countRow == 0){
+                    return ServerResponse.createByErrorMessage("update terminal fail !");
+                }
+            }
+        }
+
+        // 6.根据MAC获得目标配置表，并将改配置发往MQ
+        Terminal updatedTerminal = terminalMapper.selectByMacWithoutDelete(uploadedMac);
+        if (updatedTerminal == null){
+            return ServerResponse.createByErrorMessage("get terminal fail !");
+        }
+
+        ServerResponse response = this.sendTerminal2Rabbitmq(updatedTerminal);
+        if (response.isSuccess()){
+            return ServerResponse.createBySuccess("terminal config updated");
+        }
+        return ServerResponse.createByErrorMessage("terminal config update fail !");
+    }
+
+    private ServerResponse sendTerminal2Rabbitmq(Terminal terminal){
+        if (terminal == null){
+            return ServerResponse.createByErrorMessage("terminal config update fail !");
+        }
+        try {
+            terminalProducer.sendTerminalConfig(terminal);
+        } catch (IOException e) {
+            return ServerResponse.createByErrorMessage("send terminal fail by error: "+e);
+        } catch (TimeoutException e) {
+            return ServerResponse.createByErrorMessage("send terminal fail by error: "+e);
+        } catch (InterruptedException e) {
+            return ServerResponse.createByErrorMessage("send terminal fail by error: "+e);
+        } catch (Exception e) {
+            return ServerResponse.createByErrorMessage("send terminal fail by error: "+e);
+        }
+
+        return ServerResponse.createBySuccess("send terminal success");
     }
 
     private ServerResponse changeState(int id, int targetStateCode) {

@@ -1,8 +1,9 @@
 package com.renewable.centcontrol.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Terminal {
+public class Terminal implements Serializable {
     private Integer id;
 
     private Integer projectId;

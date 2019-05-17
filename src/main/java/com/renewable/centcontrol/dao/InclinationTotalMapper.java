@@ -25,4 +25,6 @@ public interface InclinationTotalMapper {
     List<InclinationTotal> selectListByTime(@Param("startTime") Date startTime, @Param("endTime") Date endTime, @Param("terminalId") int terminalId, @Param("sensorId")int sensorId);
 
     InclinationTotal selectByTerminalAndSensor(@Param("terminalId") int terminalId, @Param("sensorId")int sensorId);
+
+    int insertList(@Param("inclinationTotalList") List<InclinationTotal> inclinationTotalList);
 }

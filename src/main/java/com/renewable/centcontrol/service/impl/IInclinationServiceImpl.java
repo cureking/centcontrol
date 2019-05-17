@@ -139,4 +139,34 @@ public class IInclinationServiceImpl implements IInclinationService {
             return ServerResponse.createBySuccess(inclinationTotal);
         }
     }
+
+    @Override
+    public ServerResponse insertTotalDataByList(List<InclinationTotal> inclinationTotalList) {
+        if (inclinationTotalList == null){
+            return ServerResponse.createByErrorMessage("the inclinationTotalList is null !");
+        }
+
+        int countRow = inclinationTotalMapper.insertList(inclinationTotalList);
+        if (countRow == 0){
+            return ServerResponse.createByErrorMessage("inclinationTotalList insert fail !");
+        }
+
+        return ServerResponse.createBySuccessMessage("inclinaitonTotalList insert success !");
+    }
+
+    @Override
+    public ServerResponse insertInitDataByList(List<InclinationInit> inclinationInitList) {
+        if (inclinationInitList == null){
+            return ServerResponse.createByErrorMessage("the inclinationTotalList is null !");
+        }
+
+        int countRow = inclinationInitMapper.insertList(inclinationInitList);
+        if (countRow == 0){
+            return ServerResponse.createByErrorMessage("inclinationTotalList insert fail !");
+        }
+
+        return ServerResponse.createBySuccessMessage("inclinaitonTotalList insert success !");
+    }
+
+
 }
