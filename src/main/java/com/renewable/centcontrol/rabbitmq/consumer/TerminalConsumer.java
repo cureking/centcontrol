@@ -41,8 +41,6 @@ public class TerminalConsumer {
     public void messageOnTerminal(@Payload String terminalStr, @Headers Map<String,Object> headers, Channel channel)throws IOException {
 
         Terminal terminal = JsonUtil.string2Obj(terminalStr,Terminal.class);
-        //test
-        System.out.println(terminalStr);
 
         // 2.业务逻辑
         ServerResponse response = iTerminalService.getTerminalFromRabbitmq(terminal);

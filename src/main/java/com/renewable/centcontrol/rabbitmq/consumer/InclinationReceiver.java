@@ -60,11 +60,6 @@ public class InclinationReceiver {
         List<InclinationTotal> inclinationTotalList = JsonUtil.string2Obj(inclinationTotalListStr, List.class, InclinationTotal.class);
         ServerResponse response = iInclinationService.insertTotalDataByList(inclinationTotalList);
 
-        // 调试
-        System.out.println("receive message: " + inclinationTotalListStr);
-        System.out.println("jackosn:ID: " + inclinationTotalList);
-        System.out.println(Arrays.toString(headers.values().toArray()));
-
         if (response.isSuccess()){
             //由于配置中写的是手动签收，所以这里需要通过Headers来进行签收
             Long deliveryTag = (Long) headers.get(AmqpHeaders.DELIVERY_TAG);
@@ -87,11 +82,6 @@ public class InclinationReceiver {
         //消费者操作
         List<InclinationInit> inclinationInitList = JsonUtil.string2Obj(inclinationInitListStr, List.class, InclinationTotal.class);
         ServerResponse response = iInclinationService.insertInitDataByList(inclinationInitList);
-
-        // 调试
-        System.out.println("receive message: " + inclinationInitListStr);
-        System.out.println("jackosn:ID: " + inclinationInitList);
-        System.out.println(Arrays.toString(headers.values().toArray()));
 
         if (response.isSuccess()){
             Long deliveryTag = (Long) headers.get(AmqpHeaders.DELIVERY_TAG);
