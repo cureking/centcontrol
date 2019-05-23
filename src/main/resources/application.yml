@@ -1,13 +1,4 @@
 
-rabbitmq:
-  server:
-    ip: localhost
-    post: 5672
-    name: guest
-    password: guest
-    virtual-host: /
-    connection-timeout: 15000
-
 # rabbitmq 消费端配置
 spring:
   rabbitmq:
@@ -16,8 +7,29 @@ spring:
         concurrency: 5
         max-concurrency: 10
         acknowledge-mode: manual
-#       限流
+        # 限流
         prefetch: 1
+    host: "47.92.249.250"
+    port: 5672
+    username: "admin"
+    password: "123456"
+#    host: "localhost"
+#    port: 5672
+#    username: "guest"
+#    password: "guest"
+    virtual-host: "/"
+#    connection-timeout: 15000
+
+  # redis 配置  // 先通过手动配置吧，之后实现自动注入
+  redis:
+    host: "47.92.249.250"
+    port: 6379
+    jedis:
+      pool:
+        max-active: 20
+        max-idle: 10
+#        max-wait: 100000
+        min-idle: 2
 
 
 mybatis:

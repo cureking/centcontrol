@@ -2,6 +2,7 @@
 //
 //import com.renewable.centcontrol.common.RedisPool;
 //import lombok.extern.slf4j.Slf4j;
+//import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 //import redis.clients.jedis.Jedis;
 //
 ///**
@@ -23,6 +24,7 @@
 //        Long result = null;
 //
 //        try {
+//            jedis = RedisPool.getJedis();
 //            jedis = RedisPool.getJedis();
 //            result = jedis.expire(key, exTime);
 //        } catch (Exception e) {
