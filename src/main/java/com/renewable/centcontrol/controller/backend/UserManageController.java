@@ -35,21 +35,6 @@ public class UserManageController {
     @RequestMapping(value = "login.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session, HttpServletResponse httpServletResponse){
-//        ServerResponse<User> response=iUserService.login(username,password);
-//        if (response.isSuccess()){
-//
-//            //这里就不可以将用户填入session，需要先进行用户权限认证，防止纵向越权
-//            User user=response.getData();
-//            if (user.getRole() == Const.Role.ROLE_ADMIN){
-//                //说明登录的是管理员
-//                session.setAttribute(Const.CURRENT_USER,user);
-//                return response;
-//            }else{
-//                return ServerResponse.createByErrorMessage("不是管理员，无法登录");
-//            }
-//        }
-//        return response;
-
 
         ServerResponse<User> response = iUserService.login(username,password);
         if(response.isSuccess()){
@@ -61,6 +46,8 @@ public class UserManageController {
                 //新增redis共享cookie，session的方式
                 CookieUtil.writeLoginToken(httpServletResponse,session.getId());
                 redisTemplateUtil.setEx(session.getId(), JsonUtil.obj2String(response.getData()), RedisConstant.RedisCacheExtime.REDIS_SESSION_EXTIME);
+
+                User userTest = JsonUtil.string2Obj(redisTemplateUtil.get(session.getId()),User.class);
                 return response;
             }else{
                 return ServerResponse.createByErrorMessage("不是管理员,无法登录");

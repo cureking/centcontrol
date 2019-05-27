@@ -65,6 +65,12 @@ public class IProjectServiceImpl implements IProjectService {
         if (project == null){
             return ServerResponse.createByErrorMessage("the project is null");
         }
+
+        // 2.新建insertProject
+        Project insertProject = project;    // 其实这里应该通过相关BO的Assemble()进行正向处理，这里暂时简化，日后完善
+        project.setId(null);    // 避免DuplicateKeyException
+        // 其实这里还需要进行重复性检测。不过现在就一个项目，所以暂时这样吧。
+
         int countRow = projectMapper.insertSelective(project);
         if (countRow == 0){
             return ServerResponse.createByErrorMessage("insert project fail !");

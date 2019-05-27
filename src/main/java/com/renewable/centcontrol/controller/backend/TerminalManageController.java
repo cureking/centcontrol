@@ -42,18 +42,10 @@ public class TerminalManageController {
     @RequestMapping(value = "create_terminal.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse createTerminal(HttpSession session, Terminal terminal) {
+        //1.校验用户权限  // 已交由拦截器处理
 
-        //1.校验用户权限
-        User user = (User)session.getAttribute(Const.CURRENT_USER);
-        if(user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录,请登录管理员");
-        }
-        if(iUserService.checkAdminRole(user).isSuccess()){
-            //2.填充业务逻辑
-            return iTerminalService.createTerminal(terminal);
-        }else{
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+        //2.填充业务逻辑
+        return iTerminalService.createTerminal(terminal);
     }
 
 
@@ -66,18 +58,10 @@ public class TerminalManageController {
     @RequestMapping(value = "update_terminal.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse updateTerminal(HttpSession session, Terminal terminal) {
+        //1.校验用户权限  // 已交由拦截器处理
 
-        //1.校验用户权限
-        User user = (User)session.getAttribute(Const.CURRENT_USER);
-        if(user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录,请登录管理员");
-        }
-        if(iUserService.checkAdminRole(user).isSuccess()){
-            //填充业务逻辑
-            return iTerminalService.updateTerminal(terminal);
-        }else{
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+        //2.填充业务逻辑
+        return iTerminalService.updateTerminal(terminal);
     }
 
     /**
@@ -88,17 +72,9 @@ public class TerminalManageController {
     @RequestMapping(value = "delete_terminal.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse deleteTerminal(HttpSession session,int terminalId) {
+        //1.校验用户权限  // 已交由拦截器处理
 
-        //1.校验用户权限
-        User user = (User)session.getAttribute(Const.CURRENT_USER);
-        if(user == null){
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录,请登录管理员");
-        }
-        if(iUserService.checkAdminRole(user).isSuccess()){
-            //填充业务逻辑
-            return iTerminalService.deleteTerminal(terminalId);             //现在是单用户，故这里不需要传输useId，来避免横向越权问题（数据库中A用户利用B用户的terminalId，来删除了B用户的terminal）。
-        }else{
-            return ServerResponse.createByErrorMessage("无权限操作");
-        }
+        //2.填充业务逻辑
+        return iTerminalService.deleteTerminal(terminalId);
     }
 }

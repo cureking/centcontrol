@@ -10,6 +10,7 @@ import com.renewable.centcontrol.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +27,7 @@ import java.util.Map;
  * @Author: jarry
  */
 @Slf4j
+@Component
 public class AuthorityInterceptor implements HandlerInterceptor {
 
     @Autowired
@@ -74,7 +76,6 @@ public class AuthorityInterceptor implements HandlerInterceptor {
 
         String loginToken = CookieUtil.readLoginToken(request);
         if(StringUtils.isNotEmpty(loginToken)){
-//            String userJsonStr = RedisShardedPoolUtil.get(loginToken);
             String userJsonStr = redisTemplateUtil.get(loginToken);
             user = JsonUtil.string2Obj(userJsonStr,User.class);
         }

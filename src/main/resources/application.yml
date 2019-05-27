@@ -28,7 +28,7 @@ spring:
       pool:
         max-active: 20
         max-idle: 10
-#        max-wait: 100000
+        max-wait: 10000   # 这里有点糊糊的，不知道Duration配置，也不知道单位问题。但是加了这条，确实不会再等待一分钟
         min-idle: 2
 
 

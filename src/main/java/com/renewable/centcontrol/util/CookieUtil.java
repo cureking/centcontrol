@@ -40,7 +40,7 @@ public class CookieUtil {
 
     public static void writeLoginToken(HttpServletResponse response, String token){
         Cookie ck = new Cookie(COOKIE_NAME,token);
-        ck.setDomain(COOKIE_DOMAIN);
+//        ck.setDomain(COOKIE_DOMAIN);  // Springboot与Springframework在Cookie的Domain处理上存在较大差异，所以暂不设置Domain（工业场景，也没人和我们抢。。。），之后完善
         ck.setPath("/");//代表设置在根目录
         ck.setHttpOnly(true);
         //单位是秒。
@@ -56,7 +56,7 @@ public class CookieUtil {
         if(cks != null){
             for(Cookie ck : cks){
                 if(StringUtils.equals(ck.getName(),COOKIE_NAME)){
-                    ck.setDomain(COOKIE_DOMAIN);
+//                    ck.setDomain(COOKIE_DOMAIN);
                     ck.setPath("/");
                     ck.setMaxAge(0);//设置成0，代表删除此cookie。
                     log.info("del cookieName:{},cookieValue:{}",ck.getName(),ck.getValue());
