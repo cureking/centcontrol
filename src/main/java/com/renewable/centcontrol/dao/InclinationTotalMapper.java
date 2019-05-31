@@ -20,11 +20,11 @@ public interface InclinationTotalMapper {
     int updateByPrimaryKey(InclinationTotal record);
 
     //custom
-    List<InclinationTotal> selectList(@Param(value = "terminalId")int terminalId, @Param(value = "sensorId")int sensorId);
+    List<InclinationTotal> selectList(@Param(value = "terminalId") int terminalId, @Param(value = "sensorId") int sensorId);
 
-    List<InclinationTotal> selectListByTime(@Param("startTime") Date startTime, @Param("endTime") Date endTime, @Param("terminalId") int terminalId, @Param("sensorId")int sensorId);
+    List<InclinationTotal> selectListByTime(@Param("startTime") Date startTime, @Param("endTime") Date endTime, @Param("terminalId") int terminalId, @Param("sensorId") int sensorId);
 
-    InclinationTotal selectByTerminalAndSensor(@Param("terminalId") int terminalId, @Param("sensorId")int sensorId);
+    InclinationTotal selectByTerminalAndSensor(@Param("terminalId") int terminalId, @Param("sensorId") int sensorId);
 
     int insertList(@Param("inclinationTotalList") List<InclinationTotal> inclinationTotalList);
 }

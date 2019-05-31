@@ -14,4 +14,7 @@ public interface SensorRegisterMapper {
     int updateByPrimaryKeySelective(SensorRegister record);
 
     int updateByPrimaryKey(SensorRegister record);
+
+    // custom
+    Integer insertSelectiveAndReturnId(SensorRegister sensorRegister);
 }

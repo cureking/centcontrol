@@ -22,16 +22,16 @@ public class ProjectController {
     private IProjectService iProjectService;
 
 
-    @RequestMapping(value = "list_project_page.do",method = RequestMethod.GET)
+    @RequestMapping(value = "list_project_page.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<PageInfo> listProjectByPage(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                                @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        return iProjectService.listByPage(pageNum,pageSize);
+                                                      @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        return iProjectService.listByPage(pageNum, pageSize);
     }
 
-    @RequestMapping(value = "get_project_id.do",method = RequestMethod.GET)
+    @RequestMapping(value = "get_project_id.do", method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse getProjectById(int projectId){
+    public ServerResponse getProjectById(int projectId) {
         return iProjectService.getProject(projectId);
     }
 

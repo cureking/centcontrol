@@ -3,7 +3,6 @@ package com.renewable.centcontrol.service;
 import com.github.pagehelper.PageInfo;
 import com.renewable.centcontrol.common.ServerResponse;
 import com.renewable.centcontrol.pojo.Project;
-import com.renewable.centcontrol.pojo.Terminal;
 
 /**
  * @Description：

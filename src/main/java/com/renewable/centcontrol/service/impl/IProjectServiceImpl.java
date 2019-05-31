@@ -3,12 +3,10 @@ package com.renewable.centcontrol.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
-import com.renewable.centcontrol.common.Const;
 import com.renewable.centcontrol.common.ServerResponse;
 import com.renewable.centcontrol.dao.ProjectMapper;
 import com.renewable.centcontrol.pojo.Project;
 import com.renewable.centcontrol.service.IProjectService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +16,7 @@ import java.util.List;
  * @Description：
  * @Author: jarry
  */
-@Service("iProjectImpl")
+@Service("iProjectServiceImpl")
 public class IProjectServiceImpl implements IProjectService {
 
     @Autowired
@@ -33,7 +31,7 @@ public class IProjectServiceImpl implements IProjectService {
 
         //第二步：填充自己的sql查询逻辑
         List<Project> inclinationTotalList = projectMapper.selectList();
-        if (inclinationTotalList == null){
+        if (inclinationTotalList == null) {
             return ServerResponse.createByErrorMessage("not found inclinationInit");
         }
 
@@ -41,7 +39,7 @@ public class IProjectServiceImpl implements IProjectService {
         //此处日后可扩展VO
         List<Project> projectByTimeVoList = Lists.newArrayList();
         for (Project inclinationTotalItem : inclinationTotalList) {
-            Project inclinationTotalVo = (Project)inclinationTotalItem;   // 可以建立assembleVo()，而不是强转
+            Project inclinationTotalVo = (Project) inclinationTotalItem;   // 可以建立assembleVo()，而不是强转
             projectByTimeVoList.add(inclinationTotalVo);
         }
 
@@ -54,7 +52,7 @@ public class IProjectServiceImpl implements IProjectService {
     @Override
     public ServerResponse getProject(int projectId) {
         Project project = projectMapper.selectByPrimaryKey(projectId);
-        if (project == null){
+        if (project == null) {
             return ServerResponse.createByErrorMessage("not found the project !");
         }
         return ServerResponse.createBySuccess(project);
@@ -62,7 +60,7 @@ public class IProjectServiceImpl implements IProjectService {
 
     @Override
     public ServerResponse createProject(Project project) {
-        if (project == null){
+        if (project == null) {
             return ServerResponse.createByErrorMessage("the project is null");
         }
 
@@ -72,7 +70,7 @@ public class IProjectServiceImpl implements IProjectService {
         // 其实这里还需要进行重复性检测。不过现在就一个项目，所以暂时这样吧。
 
         int countRow = projectMapper.insertSelective(project);
-        if (countRow == 0){
+        if (countRow == 0) {
             return ServerResponse.createByErrorMessage("insert project fail !");
         }
         return ServerResponse.createBySuccessMessage("insert project success !");
@@ -80,15 +78,15 @@ public class IProjectServiceImpl implements IProjectService {
 
     @Override
     public ServerResponse updateProject(Project project) {
-        if (project == null){
+        if (project == null) {
             return ServerResponse.createByErrorMessage("the project is null");
         }
-        if (project.getId() == null){
+        if (project.getId() == null) {
             return ServerResponse.createByErrorMessage("the id of project is nil !");
         }
 
         int countRow = projectMapper.updateByPrimaryKeySelective(project);
-        if (countRow == 0){
+        if (countRow == 0) {
             return ServerResponse.createByErrorMessage("update project fail !");
         }
         return ServerResponse.createBySuccessMessage("update project success !");
@@ -97,7 +95,7 @@ public class IProjectServiceImpl implements IProjectService {
     @Override
     public ServerResponse deleteProject(int projectId) {
         int countRow = projectMapper.deleteByPrimaryKey(projectId);
-        if (countRow == 0){
+        if (countRow == 0) {
             return ServerResponse.createByErrorMessage("delete project fail !");
         }
         return ServerResponse.createBySuccessMessage("delete project success !");

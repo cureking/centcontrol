@@ -1,236 +1,169 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.renewable.centcontrol.dao.SensorRegisterMapper" >
-  <resultMap id="BaseResultMap" type="com.renewable.centcontrol.pojo.SensorRegister" >
-    <constructor >
-      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="terminal_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="sensor_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="nick_name" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="port" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="address" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="type" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="model" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="zero" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="baudrate" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="clean_type" jdbcType="TINYINT" javaType="java.lang.Byte" />
-      <arg column="clean_key" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="clean_interval" jdbcType="BIGINT" javaType="java.lang.Long" />
-      <arg column="clean_last_id" jdbcType="BIGINT" javaType="java.lang.Long" />
-      <arg column="remake" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.renewable.centcontrol.dao.SensorRegisterMapper">
+  <resultMap id="BaseResultMap" type="com.renewable.centcontrol.pojo.SensorRegister">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="terminal_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sensor_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="nickname" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.Byte" jdbcType="TINYINT" />
+      <arg column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, terminal_id, sensor_id, nick_name, port, address, type, model, zero, baudrate, 
-    clean_type, clean_key, clean_interval, clean_last_id, remake, create_time, update_time
+  <sql id="Base_Column_List">
+    id, terminal_id, sensor_id, nickname, status, create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from sensor_register
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sensor_register
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.renewable.centcontrol.pojo.SensorRegister" >
+  <insert id="insert" parameterType="com.renewable.centcontrol.pojo.SensorRegister">
     insert into sensor_register (id, terminal_id, sensor_id, 
-      nick_name, port, address, 
-      type, model, zero, 
-      baudrate, clean_type, clean_key, 
-      clean_interval, clean_last_id, remake, 
-      create_time, update_time)
+      nickname, status, create_time, 
+      update_time)
     values (#{id,jdbcType=INTEGER}, #{terminalId,jdbcType=INTEGER}, #{sensorId,jdbcType=INTEGER}, 
-      #{nickName,jdbcType=VARCHAR}, #{port,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{model,jdbcType=INTEGER}, #{zero,jdbcType=INTEGER}, 
-      #{baudrate,jdbcType=INTEGER}, #{cleanType,jdbcType=TINYINT}, #{cleanKey,jdbcType=VARCHAR}, 
-      #{cleanInterval,jdbcType=BIGINT}, #{cleanLastId,jdbcType=BIGINT}, #{remake,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{nickname,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.renewable.centcontrol.pojo.SensorRegister" >
+  <insert id="insertSelective" parameterType="com.renewable.centcontrol.pojo.SensorRegister">
     insert into sensor_register
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="terminalId != null" >
+      <if test="terminalId != null">
         terminal_id,
       </if>
-      <if test="sensorId != null" >
+      <if test="sensorId != null">
         sensor_id,
       </if>
-      <if test="nickName != null" >
-        nick_name,
+      <if test="nickname != null">
+        nickname,
       </if>
-      <if test="port != null" >
-        port,
+      <if test="status != null">
+        status,
       </if>
-      <if test="address != null" >
-        address,
-      </if>
-      <if test="type != null" >
-        type,
-      </if>
-      <if test="model != null" >
-        model,
-      </if>
-      <if test="zero != null" >
-        zero,
-      </if>
-      <if test="baudrate != null" >
-        baudrate,
-      </if>
-      <if test="cleanType != null" >
-        clean_type,
-      </if>
-      <if test="cleanKey != null" >
-        clean_key,
-      </if>
-      <if test="cleanInterval != null" >
-        clean_interval,
-      </if>
-      <if test="cleanLastId != null" >
-        clean_last_id,
-      </if>
-      <if test="remake != null" >
-        remake,
-      </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         update_time,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="terminalId != null" >
+      <if test="terminalId != null">
         #{terminalId,jdbcType=INTEGER},
       </if>
-      <if test="sensorId != null" >
+      <if test="sensorId != null">
         #{sensorId,jdbcType=INTEGER},
       </if>
-      <if test="nickName != null" >
-        #{nickName,jdbcType=VARCHAR},
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
       </if>
-      <if test="port != null" >
-        #{port,jdbcType=VARCHAR},
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
       </if>
-      <if test="address != null" >
-        #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        #{type,jdbcType=INTEGER},
-      </if>
-      <if test="model != null" >
-        #{model,jdbcType=INTEGER},
-      </if>
-      <if test="zero != null" >
-        #{zero,jdbcType=INTEGER},
-      </if>
-      <if test="baudrate != null" >
-        #{baudrate,jdbcType=INTEGER},
-      </if>
-      <if test="cleanType != null" >
-        #{cleanType,jdbcType=TINYINT},
-      </if>
-      <if test="cleanKey != null" >
-        #{cleanKey,jdbcType=VARCHAR},
-      </if>
-      <if test="cleanInterval != null" >
-        #{cleanInterval,jdbcType=BIGINT},
-      </if>
-      <if test="cleanLastId != null" >
-        #{cleanLastId,jdbcType=BIGINT},
-      </if>
-      <if test="remake != null" >
-        #{remake,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.renewable.centcontrol.pojo.SensorRegister" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.renewable.centcontrol.pojo.SensorRegister">
     update sensor_register
-    <set >
-      <if test="terminalId != null" >
+    <set>
+      <if test="terminalId != null">
         terminal_id = #{terminalId,jdbcType=INTEGER},
       </if>
-      <if test="sensorId != null" >
+      <if test="sensorId != null">
         sensor_id = #{sensorId,jdbcType=INTEGER},
       </if>
-      <if test="nickName != null" >
-        nick_name = #{nickName,jdbcType=VARCHAR},
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
       </if>
-      <if test="port != null" >
-        port = #{port,jdbcType=VARCHAR},
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
       </if>
-      <if test="address != null" >
-        address = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="model != null" >
-        model = #{model,jdbcType=INTEGER},
-      </if>
-      <if test="zero != null" >
-        zero = #{zero,jdbcType=INTEGER},
-      </if>
-      <if test="baudrate != null" >
-        baudrate = #{baudrate,jdbcType=INTEGER},
-      </if>
-      <if test="cleanType != null" >
-        clean_type = #{cleanType,jdbcType=TINYINT},
-      </if>
-      <if test="cleanKey != null" >
-        clean_key = #{cleanKey,jdbcType=VARCHAR},
-      </if>
-      <if test="cleanInterval != null" >
-        clean_interval = #{cleanInterval,jdbcType=BIGINT},
-      </if>
-      <if test="cleanLastId != null" >
-        clean_last_id = #{cleanLastId,jdbcType=BIGINT},
-      </if>
-      <if test="remake != null" >
-        remake = #{remake,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.renewable.centcontrol.pojo.SensorRegister" >
+  <update id="updateByPrimaryKey" parameterType="com.renewable.centcontrol.pojo.SensorRegister">
     update sensor_register
     set terminal_id = #{terminalId,jdbcType=INTEGER},
       sensor_id = #{sensorId,jdbcType=INTEGER},
-      nick_name = #{nickName,jdbcType=VARCHAR},
-      port = #{port,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER},
-      model = #{model,jdbcType=INTEGER},
-      zero = #{zero,jdbcType=INTEGER},
-      baudrate = #{baudrate,jdbcType=INTEGER},
-      clean_type = #{cleanType,jdbcType=TINYINT},
-      clean_key = #{cleanKey,jdbcType=VARCHAR},
-      clean_interval = #{cleanInterval,jdbcType=BIGINT},
-      clean_last_id = #{cleanLastId,jdbcType=BIGINT},
-      remake = #{remake,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <insert id="insertSelectiveAndReturnId"  parameterType="com.renewable.centcontrol.pojo.SensorRegister" useGeneratedKeys="true" keyProperty="id">
+    insert into sensor_register
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="terminalId != null">
+        terminal_id,
+      </if>
+      <if test="sensorId != null">
+        sensor_id,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="terminalId != null">
+        #{terminalId,jdbcType=INTEGER},
+      </if>
+      <if test="sensorId != null">
+        #{sensorId,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
 </mapper>

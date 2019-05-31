@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * @Description：
@@ -38,10 +37,11 @@ public class AuthorityConfigurationAdapter implements WebMvcConfigurer {
     AuthorityInterceptor localInterceptor() {
         return new AuthorityInterceptor();
     }
+
     @Override
-    public void addInterceptors(InterceptorRegistry registry){
+    public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localInterceptor()).addPathPatterns("/manage/**")
-           // .excludePathPatterns("/manage/user/login.do")   // 和Springframework一样，可以通过拦截器实现exclude。这样的话，AuthorityInterceptor那里的exclude就不需要了。
+        // .excludePathPatterns("/manage/user/login.do")   // 和Springframework一样，可以通过拦截器实现exclude。这样的话，AuthorityInterceptor那里的exclude就不需要了。
         ;
     }
 

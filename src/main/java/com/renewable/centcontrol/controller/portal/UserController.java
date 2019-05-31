@@ -35,7 +35,7 @@ public class UserController {
      * @return
      */
     //声明该方法通过login.do访问(进行了类似原DD中servlet的处理），访问方法设置为POST
-    @RequestMapping(value = "login.do", method = RequestMethod.POST)
+    @RequestMapping(value = "login.do", method = RequestMethod.GET)
     //返回时，自动通过SpringMVC下的MappingJacksonHttpMessageConverter(springMVC的dispatcher-servlet.xml中有相关配置）,将返回结果自动序列化为JSON
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session) {
@@ -129,6 +129,7 @@ public class UserController {
 
     /**
      * 用于实现忘记密码时，通过密码问题重置密码
+     *
      * @param username
      * @param passwordNew
      * @param forgetToken
@@ -142,30 +143,32 @@ public class UserController {
 
     /**
      * 用于在登录状态下，更新密码
+     *
      * @param session
      * @param passwordOld
      * @param passwordNew
      * @return
      */
-    @RequestMapping(value = "reset_password.do",method = RequestMethod.POST)
+    @RequestMapping(value = "reset_password.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> resetPassword(HttpSession session, String passwordOld, String passwordNew) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null) {
             return ServerResponse.createByErrorMessage("用户未登录");
         }
-            return iUserService.resetPassword(passwordOld,passwordNew,user);
+        return iUserService.resetPassword(passwordOld, passwordNew, user);
     }
 
     /**
      * 更新用户信息
+     *
      * @param session
      * @param user
      * @return
      */
-    @RequestMapping(value = "update_information.do",method = RequestMethod.POST)
+    @RequestMapping(value = "update_information.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<User> update_information(HttpSession session, User user){
+    public ServerResponse<User> update_information(HttpSession session, User user) {
         //检测用户是否登录
         User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
         if (currentUser == null) {
@@ -174,9 +177,9 @@ public class UserController {
         //其实这下面两句，完全是为了防止横向越权的。因为id 和username 都确定当前用户（服务器自动从session中获取的），就不存在被人篡写的可能性
         user.setId(currentUser.getId());
         user.setUsername(currentUser.getUsername());
-        ServerResponse<User> response=iUserService.updateInformation(user);
-        if (response.isSuccess()){
-            session.setAttribute(Const.CURRENT_USER,response.getData());
+        ServerResponse<User> response = iUserService.updateInformation(user);
+        if (response.isSuccess()) {
+            session.setAttribute(Const.CURRENT_USER, response.getData());
         }
         //错误的话，就直接返回response，因为response在sevice层中已经设定了错误信息
         return response;
@@ -184,16 +187,17 @@ public class UserController {
 
     /**
      * 获取用户个人信息
+     *
      * @param session
      * @return
      */
-    @RequestMapping(value = "get_information.do",method= RequestMethod.POST)
+    @RequestMapping(value = "get_information.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<User> get_Information(HttpSession session){
+    public ServerResponse<User> get_Information(HttpSession session) {
         //确保 未登录状态下访问该接口，强制登录
         User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
         if (currentUser == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"未登录，需要强制登录status=10");
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "未登录，需要强制登录status=10");
         }
         return iUserService.getInformation(currentUser.getId());
     }

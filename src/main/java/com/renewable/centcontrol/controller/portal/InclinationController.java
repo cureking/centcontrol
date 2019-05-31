@@ -25,11 +25,11 @@ public class InclinationController {
 
 
     //根据传感器id，pageHelper参数获取对应监控数据  //采用pageHelper技术
-    @RequestMapping(value = "list_init_page.do",method = RequestMethod.GET)
+    @RequestMapping(value = "list_init_page.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<PageInfo> listInitDataByPage(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                                @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
-                                                int terminalId, int sensorId) {    //这里的snesor_id指的是类似0x68这种标示符，并不是后来所作的传感器注册表中的id
+                                                       @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                                                       int terminalId, int sensorId) {    //这里的snesor_id指的是类似0x68这种标示符，并不是后来所作的传感器注册表中的id
         return iInclinationService.listInitDataByPage(pageNum, pageSize, terminalId, sensorId);
     }
 
@@ -37,7 +37,7 @@ public class InclinationController {
     @RequestMapping(value = "list_init_time.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<List<Object>> listInitDataByTime(@RequestParam(value = "startTime", defaultValue = "1970-1-1 0:0:0") String startTime,
-                                                          @RequestParam(value = "endTime", defaultValue = "2919-33-14 11:33:54") String endTime,
+                                                           @RequestParam(value = "endTime", defaultValue = "2919-33-14 11:33:54") String endTime,
                                                            int terminalId, int sensorId) {
         return iInclinationService.listInitDataByTime(startTime, endTime, terminalId, sensorId);
     }
@@ -54,8 +54,8 @@ public class InclinationController {
     @RequestMapping(value = "list_total_page.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<PageInfo> listTotalDataByPage(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                                            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
-                                                            int terminalId, int sensorId) {
+                                                        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                                                        int terminalId, int sensorId) {
         return iInclinationService.listTotalDataByPage(pageNum, pageSize, terminalId, sensorId);
     }
 
@@ -63,7 +63,7 @@ public class InclinationController {
     @RequestMapping(value = "list_total_time.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<List<Object>> listTotalDataByTime(@RequestParam(value = "startTime", defaultValue = "1970-1-1 0:0:0") String startTime,
-                                                           @RequestParam(value = "endTime", defaultValue = "2919-33-14 11:33:54") String endTime,
+                                                            @RequestParam(value = "endTime", defaultValue = "2919-33-14 11:33:54") String endTime,
                                                             int terminalId, int sensorId) {
         return iInclinationService.listTotalDataByTime(startTime, endTime, terminalId, sensorId);
     }

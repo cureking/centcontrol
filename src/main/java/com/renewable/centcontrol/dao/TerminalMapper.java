@@ -1,7 +1,6 @@
 package com.renewable.centcontrol.dao;
 
 import com.renewable.centcontrol.pojo.Terminal;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

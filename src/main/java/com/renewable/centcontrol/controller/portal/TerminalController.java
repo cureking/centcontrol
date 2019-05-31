@@ -2,7 +2,6 @@ package com.renewable.centcontrol.controller.portal;
 
 import com.github.pagehelper.PageInfo;
 import com.renewable.centcontrol.common.ServerResponse;
-import com.renewable.centcontrol.pojo.Project;
 import com.renewable.centcontrol.service.ITerminalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * @Description：
@@ -29,28 +26,30 @@ public class TerminalController {
 
     /**
      * 获取项目列表
+     *
      * @param pageNum
      * @param pageSize
      * @param projectId
      * @return
      */
-    @RequestMapping(value = "list_by_page.do",method = RequestMethod.GET)
+    @RequestMapping(value = "list_by_page.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<PageInfo> listByPage(@RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
-                                            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
-                                            @RequestParam(value = "projectId", defaultValue = "1") int projectId) {
+                                               @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                                               @RequestParam(value = "projectId", defaultValue = "1") int projectId) {
 
-        return iTerminalService.listByPage(pageNum,pageSize,projectId);
+        return iTerminalService.listByPage(pageNum, pageSize, projectId);
     }
 
     /**
      * 获取具体项目详情（其实列表目前返回的就是详情）
+     *
      * @param terminalId
      * @return
      */
-    @RequestMapping(value = "get_detail.do",method = RequestMethod.GET)
+    @RequestMapping(value = "get_detail.do", method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse getDetail(int terminalId){
+    public ServerResponse getDetail(int terminalId) {
         return iTerminalService.getTerminal(terminalId);
     }
 }

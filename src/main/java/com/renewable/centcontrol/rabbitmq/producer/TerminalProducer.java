@@ -1,31 +1,16 @@
 package com.renewable.centcontrol.rabbitmq.producer;
 
-import com.rabbitmq.client.BasicProperties;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-
 import com.renewable.centcontrol.pojo.Terminal;
 import com.renewable.centcontrol.util.JsonUtil;
-import com.renewable.centcontrol.util.PropertiesUtil;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
-
-import static com.renewable.centcontrol.common.constant.RabbitmqConstant.*;
 
 /**
  * @Description：
@@ -51,7 +36,7 @@ public class TerminalProducer {
     ))
 
 
-    public void sendTerminalConfig(String terminalStr) throws Exception{
+    public void sendTerminalConfig(String terminalStr) throws Exception {
 //        CorrelationData correlationData = new CorrelationData();
 //        correlationData.setId("11212121212");  //消息的唯一标识ID
 
@@ -66,7 +51,7 @@ public class TerminalProducer {
     }
 
     // 由于注解的关系，如果在上面的方法中放入Terminal参数格式，那么在其中的converAndSend中，会通过Payload注解，将message转为Terminal格式。由于转换失败，从而抛出异常。另外，这样增加一个重载方法，也是不错的选择
-    public void sendTerminalConfig(Terminal terminal) throws Exception{
+    public void sendTerminalConfig(Terminal terminal) throws Exception {
         this.sendTerminalConfig(JsonUtil.obj2String(terminal));
     }
 }

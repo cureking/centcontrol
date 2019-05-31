@@ -29,7 +29,6 @@ public class UserServiceImpl implements IUserService {
     public ServerResponse<User> login(String username, String password) {
 
 
-
         int resultCount = userMapper.checkUsername(username);
         if (resultCount == 0) {
             return ServerResponse.createByErrorMessage("用户名不存在");
@@ -159,9 +158,9 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createByErrorMessage("密码更新失败");
     }
 
-    public ServerResponse<User> updateInformation(User user){
-        int resultCount=userMapper.checkEmailByUserId(user.getEmail(),user.getId());
-        if (resultCount>0){
+    public ServerResponse<User> updateInformation(User user) {
+        int resultCount = userMapper.checkEmailByUserId(user.getEmail(), user.getId());
+        if (resultCount > 0) {
             return ServerResponse.createByErrorMessage("该email已存在，请更换email再尝试更新");
         }
 
@@ -175,14 +174,14 @@ public class UserServiceImpl implements IUserService {
 
         //这里采用-Selective的更新，因为我们定制的updateUser中存在诸多空字符串，而这些空字符串都是我们不希望变动，更新的。
         int updateCount = userMapper.updateByPrimaryKeySelective(updateUser);
-        if (updateCount>0){
-            return ServerResponse.createBySuccess("更新个人信息成功",updateUser);
+        if (updateCount > 0) {
+            return ServerResponse.createBySuccess("更新个人信息成功", updateUser);
         }
         return ServerResponse.createByErrorMessage("更新个人信息失败");
     }
 
-    public ServerResponse<User> getInformation(Integer userId){
-        User user=userMapper.selectByPrimaryKey(userId);
+    public ServerResponse<User> getInformation(Integer userId) {
+        User user = userMapper.selectByPrimaryKey(userId);
         if (user == null)
             return ServerResponse.createByErrorMessage("找不到当前用户");
         user.setPassword(StringUtils.EMPTY);
@@ -191,11 +190,12 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 校验是否为管理员
+     *
      * @param user
      * @return
      */
-    public ServerResponse checkAdminRole(User user){
-        if (user != null && user.getRole().intValue() == Const.Role.ROLE_ADMIN){
+    public ServerResponse checkAdminRole(User user) {
+        if (user != null && user.getRole().intValue() == Const.Role.ROLE_ADMIN) {
             return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();

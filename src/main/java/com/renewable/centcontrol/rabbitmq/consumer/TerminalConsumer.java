@@ -38,17 +38,17 @@ public class TerminalConsumer {
             key = TERMINAL_CONFIG_TERMINAL2CENTCONTROL_BINDINGKEY
     ))
     @RabbitHandler
-    public void messageOnTerminal(@Payload String terminalStr, @Headers Map<String,Object> headers, Channel channel)throws IOException {
+    public void messageOnTerminal(@Payload String terminalStr, @Headers Map<String, Object> headers, Channel channel) throws IOException {
 
-        Terminal terminal = JsonUtil.string2Obj(terminalStr,Terminal.class);
+        Terminal terminal = JsonUtil.string2Obj(terminalStr, Terminal.class);
 
         // 2.业务逻辑
         ServerResponse response = iTerminalService.getTerminalFromRabbitmq(terminal);
 
         // 3.确认
-        if (response.isSuccess()){
-            Long deliveryTag = (Long)headers.get(AmqpHeaders.DELIVERY_TAG);
-            channel.basicAck(deliveryTag,false);
+        if (response.isSuccess()) {
+            Long deliveryTag = (Long) headers.get(AmqpHeaders.DELIVERY_TAG);
+            channel.basicAck(deliveryTag, false);
         }
     }
 }

@@ -13,7 +13,6 @@ import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +43,6 @@ public class InclinationReceiver {
     private static final String INCLINATION_INIT_ROUTINGKEY = "sensor.inclination.data.init";
 
 
-
     @RabbitListener(bindings = @QueueBinding(     // 要设置到底监听哪个QUEUE    还可以进行EXCHANGE,QUEUE,BINGDING
             value = @Queue(value = INCLINATION_TOTAL_QUEUE, declare = "true"),
             exchange = @Exchange(value = INCLINATION_TOTAL_EXCHANGE, durable = "true", type = INCLINATION_TOTAL_ROUTINETYPE),
@@ -60,7 +58,7 @@ public class InclinationReceiver {
         List<InclinationTotal> inclinationTotalList = JsonUtil.string2Obj(inclinationTotalListStr, List.class, InclinationTotal.class);
         ServerResponse response = iInclinationService.insertTotalDataByList(inclinationTotalList);
 
-        if (response.isSuccess()){
+        if (response.isSuccess()) {
             //由于配置中写的是手动签收，所以这里需要通过Headers来进行签收
             Long deliveryTag = (Long) headers.get(AmqpHeaders.DELIVERY_TAG);
             channel.basicAck(deliveryTag, false);
@@ -77,13 +75,13 @@ public class InclinationReceiver {
     @RabbitHandler
 //    public void onInclinationMessage(@Payload Inclination inclination,
     public void onInclinationInitMessage(@Payload String inclinationInitListStr,
-                                          @Headers Map<String, Object> headers,
-                                          Channel channel) throws Exception {
+                                         @Headers Map<String, Object> headers,
+                                         Channel channel) throws Exception {
         //消费者操作
         List<InclinationInit> inclinationInitList = JsonUtil.string2Obj(inclinationInitListStr, List.class, InclinationTotal.class);
         ServerResponse response = iInclinationService.insertInitDataByList(inclinationInitList);
 
-        if (response.isSuccess()){
+        if (response.isSuccess()) {
             Long deliveryTag = (Long) headers.get(AmqpHeaders.DELIVERY_TAG);
             channel.basicAck(deliveryTag, false);
         }

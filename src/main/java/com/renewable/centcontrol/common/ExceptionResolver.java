@@ -19,15 +19,15 @@ public class ExceptionResolver implements HandlerExceptionResolver {    // Handl
 
     @Override
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
-        log.error("{} Exception",httpServletRequest.getRequestURI(),e);
+        log.error("{} Exception", httpServletRequest.getRequestURI(), e);
         // 这里不希望返回一个ModelAndView，而是希望返回JsonView
         // Jackson1.9只支持使用MappingJacksonJsonView()，该项目中Jackson采用了高版本，所以直接使用MappingJackson2JsonView()
         ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
 
         // 模仿ServerResponse这一通用返回格式（但是由于该函数只能返回ModelAndView，所以不能直接返回ServerResponse()
-        modelAndView.addObject("status",ResponseCode.ERROR.getCode());
-        modelAndView.addObject("msg","接口异常,详情请查看服务端日志的异常信息");
-        modelAndView.addObject("data",e.toString());
+        modelAndView.addObject("status", ResponseCode.ERROR.getCode());
+        modelAndView.addObject("msg", "接口异常,详情请查看服务端日志的异常信息");
+        modelAndView.addObject("data", e.toString());
         return modelAndView;
     }
 }

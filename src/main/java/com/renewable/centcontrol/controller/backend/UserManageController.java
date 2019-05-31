@@ -32,24 +32,24 @@ public class UserManageController {
     @Autowired
     private RedisTemplateUtil redisTemplateUtil;
 
-    @RequestMapping(value = "login.do",method = RequestMethod.POST)
+    @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<User> login(String username, String password, HttpSession session, HttpServletResponse httpServletResponse){
+    public ServerResponse<User> login(String username, String password, HttpSession session, HttpServletResponse httpServletResponse) {
 
-        ServerResponse<User> response = iUserService.login(username,password);
-        if(response.isSuccess()){
+        ServerResponse<User> response = iUserService.login(username, password);
+        if (response.isSuccess()) {
             User user = response.getData();
-            if(user.getRole() == Const.Role.ROLE_ADMIN){
+            if (user.getRole() == Const.Role.ROLE_ADMIN) {
                 //说明登录的是管理员
 //                session.setAttribute(Const.CURRENT_USER,user);
 
                 //新增redis共享cookie，session的方式
-                CookieUtil.writeLoginToken(httpServletResponse,session.getId());
+                CookieUtil.writeLoginToken(httpServletResponse, session.getId());
                 redisTemplateUtil.setEx(session.getId(), JsonUtil.obj2String(response.getData()), RedisConstant.RedisCacheExtime.REDIS_SESSION_EXTIME);
 
-                User userTest = JsonUtil.string2Obj(redisTemplateUtil.get(session.getId()),User.class);
+                User userTest = JsonUtil.string2Obj(redisTemplateUtil.get(session.getId()), User.class);
                 return response;
-            }else{
+            } else {
                 return ServerResponse.createByErrorMessage("不是管理员,无法登录");
             }
         }

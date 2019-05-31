@@ -19,4 +19,14 @@ public class CacheConstant {
     public static final String TERMINAL_STATE = "terminal_state";
     public static final String TERMINAL_CREATE_TIME = "terminal_create_time";
     public static final String TERMINAL_UPDATE_TIME = "terminal_update_time";
+
+    // Warning 在缓存中的前缀
+    public static final String WARNING_PREFIX = "warning_prefix_";
+    // WarningSet 在缓存中的名称
+    public static final String WARNING_SET_KEY = "current_set";
+
+    // WarningEliminate 在缓存中的前缀
+    public static final String WARNING_ELIMINATE_PREFIX = "warning_eliminate_prefix_";
+    // WarningEliminateSet 在缓存中的名称
+    public static final String WARNING_ELIMINATE_SET_KEY = "current_set";
 }

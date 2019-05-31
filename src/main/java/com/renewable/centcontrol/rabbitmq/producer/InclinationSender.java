@@ -1,7 +1,6 @@
 package com.renewable.centcontrol.rabbitmq.producer;
 
 import com.renewable.centcontrol.pojo.Inclination;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,9 @@ public class InclinationSender {
     private static final String INCLINATION_ROUTINGKEY = "inclination-routingkey";
 
 
-    public void send(Inclination inclination) throws Exception{
+    public void send(Inclination inclination) throws Exception {
         CorrelationData correlationData = new CorrelationData();
         correlationData.setId(inclination.getMessageId());  //消息的唯一标识ID
-
 
 
         rabbitTemplate.convertAndSend(INCLINATION_EXCHANGE,

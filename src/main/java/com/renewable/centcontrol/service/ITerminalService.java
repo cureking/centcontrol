@@ -10,7 +10,7 @@ import com.renewable.centcontrol.pojo.Terminal;
  */
 public interface ITerminalService {
 
-    ServerResponse<PageInfo> listByPage(int pageNum,int pageSize,int projectId);
+    ServerResponse<PageInfo> listByPage(int pageNum, int pageSize, int projectId);
 
     ServerResponse getTerminal(int terminalId);
 
@@ -22,4 +22,5 @@ public interface ITerminalService {
 
     ServerResponse getTerminalFromRabbitmq(Terminal terminal);
 
+    ServerResponse updateTerminalStatusById(int terminalId, int statusCode);
 }

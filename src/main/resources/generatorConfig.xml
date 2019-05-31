@@ -7,7 +7,7 @@
     <!--导入属性配置-->
 
     <!-- 这里死活就是不能引入资源，我也很绝望。但是为了赶时间，而且generator不是需求频次高的，先硬编码吧。。。。 -->
-    <properties resource="application.properties"></properties>
+    <properties resource="application.yml"></properties>
 
     <!--指定特定数据库的jdbc驱动jar包的位置-->
     <!--<classPathEntry location="${db.driverLocation}"/>-->
@@ -56,7 +56,7 @@
 
         <!--mapper映射文件生成所在的目录 为每一个数据库的表生成对应的SqlMap文件 -->
         <!--<sqlMapGenerator targetPackage="mapper" targetProject=".\src\main\resources">-->
-        <sqlMapGenerator targetPackage="mappers" targetProject="./src/main/resources">
+        <sqlMapGenerator targetPackage="mapper" targetProject="./src/main/resources">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
@@ -75,6 +75,25 @@
 
 
         <!--已完成-->
+        <!--<table tableName="sensor" domainObjectName="Sensor" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="sensor_register" domainObjectName="SensorRegister" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="serial_sensor" domainObjectName="SerialSensor" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="initialization_inclination" domainObjectName="InitializationInclination" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false"></table>-->
+
+        <!--<table tableName="warning" domainObjectName="Warning" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false"></table>-->
+        <!--<table tableName="warning_eliminate" domainObjectName="WarningEliminate" enableCountByExample="false"-->
+        <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false"></table>-->
         <!--<table tableName="enterprise_project" domainObjectName="Project" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"></table>-->

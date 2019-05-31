@@ -19,6 +19,7 @@ public class CookieConfig {
      * There was an unexpected error (type=Internal Server Error, status=500).
      * An invalid domain [.localhost.com] was specified for this cookie
      * 解决SpringBoot不允许各web访问Cookie问题：XXX was specified for this cookie
+     *
      * @return
      */
     @Bean
