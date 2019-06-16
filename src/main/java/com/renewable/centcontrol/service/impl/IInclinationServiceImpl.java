@@ -13,6 +13,7 @@ import com.renewable.centcontrol.util.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -92,7 +93,7 @@ public class IInclinationServiceImpl implements IInclinationService {
 
         //第二步：填充自己的sql查询逻辑
         List<InclinationTotal> inclinationTotalList = inclinationTotalMapper.selectList(terminalId, sensorId);
-        if (inclinationTotalList == null) {
+        if (inclinationTotalList == null || inclinationTotalList.size() == 0) {
             return ServerResponse.createByErrorMessage("not found inclinationInit");
         }
 
@@ -111,10 +112,17 @@ public class IInclinationServiceImpl implements IInclinationService {
     }
 
     @Override
-    public ServerResponse<List<Object>> listTotalDataByTime(String startTime, String endTime, int terminalId, int sensorId) {
-        List<InclinationTotal> inclinationTotalList = inclinationTotalMapper.selectListByTime(DateTimeUtil.strToDate(startTime), DateTimeUtil.strToDate(endTime), terminalId, sensorId);
+    public ServerResponse<List<Object>> listTotalDataByTime(String startTime, String endTime, Integer terminalId, Integer sensorId) {
+        if (terminalId == null || sensorId == null){
+            return ServerResponse.createByErrorMessage("terminalId is null or sensorId is null !");
+        }
 
-        if (inclinationTotalList == null) {
+//        List<InclinationTotal> inclinationTotalList = inclinationTotalMapper.selectListByTime(DateTimeUtil.strToDate(startTime), DateTimeUtil.strToDate(endTime), terminalId, sensorId);
+        Date startDate = DateTimeUtil.strToDate(startTime);
+        Date endDate = DateTimeUtil.strToDate(endTime);
+        List<InclinationTotal> inclinationTotalList = inclinationTotalMapper.selectListByTime(startDate, endDate, terminalId, sensorId);    // 采用时间戳实现
+
+        if (inclinationTotalList == null || inclinationTotalList.size() == 0) {
             return ServerResponse.createByErrorMessage("not found inclinationInit");
         }
 

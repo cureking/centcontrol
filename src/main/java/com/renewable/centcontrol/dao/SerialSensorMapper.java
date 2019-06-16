@@ -6,13 +6,13 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface SerialSensorMapper {
-    int deleteByPrimaryKey(Short id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(SerialSensor record);
 
     int insertSelective(SerialSensor record);
 
-    SerialSensor selectByPrimaryKey(Short id);
+    SerialSensor selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(SerialSensor record);
 
@@ -24,4 +24,8 @@ public interface SerialSensorMapper {
     Integer insertSelectiveAndReturnId(SerialSensor serialSensor);
 
     List<SerialSensor> selectByTerminalIdAndPort(@Param("terminalId") int terminalId, @Param("port") String port);
+
+    List<SerialSensor> selectList(Integer terminalId);
+
+    int updateBatch(@Param("serialSensorList") List<SerialSensor> serialSensorList);
 }

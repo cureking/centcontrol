@@ -3,7 +3,7 @@
 <mapper namespace="com.renewable.centcontrol.dao.SerialSensorMapper" >
   <resultMap id="BaseResultMap" type="com.renewable.centcontrol.pojo.SerialSensor" >
     <constructor >
-      <idArg column="id" jdbcType="SMALLINT" javaType="java.lang.Short" />
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="sensor_register_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="terminal_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="port" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -20,22 +20,22 @@
     id, sensor_register_id, terminal_id, port, address, baudrate, model, zero, mark, 
     create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Short" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from serial_sensor
-    where id = #{id,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from serial_sensor
-    where id = #{id,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.renewable.centcontrol.pojo.SerialSensor" >
     insert into serial_sensor (id, sensor_register_id, terminal_id, 
       port, address, baudrate, 
       model, zero, mark, create_time, 
       update_time)
-    values (#{id,jdbcType=SMALLINT}, #{sensorRegisterId,jdbcType=INTEGER}, #{terminalId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{sensorRegisterId,jdbcType=INTEGER}, #{terminalId,jdbcType=INTEGER},
       #{port,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{baudrate,jdbcType=INTEGER}, 
       #{model,jdbcType=BIT}, #{zero,jdbcType=BIT}, #{mark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
@@ -79,7 +79,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=SMALLINT},
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="sensorRegisterId != null" >
         #{sensorRegisterId,jdbcType=INTEGER},
@@ -147,7 +147,7 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.renewable.centcontrol.pojo.SerialSensor" >
     update serial_sensor
@@ -161,7 +161,7 @@
       mark = #{mark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 
   <insert id="insertBatch">
@@ -171,7 +171,7 @@
     update_time)
     values
     <foreach collection="serialSensorList" index="index" item="item" separator=",">
-      (#{item.id,jdbcType=SMALLINT}, #{item.sensorRegisterId,jdbcType=INTEGER}, #{item.terminalId,jdbcType=INTEGER},
+      (#{item.id,jdbcType=INTEGER}, #{item.sensorRegisterId,jdbcType=INTEGER}, #{item.terminalId,jdbcType=INTEGER},
       #{item.port,jdbcType=VARCHAR}, #{item.address,jdbcType=VARCHAR}, #{item.baudrate,jdbcType=INTEGER},
       #{item.model,jdbcType=BIT}, #{item.zero,jdbcType=BIT}, #{item.mark,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP},
       #{item.updateTime,jdbcType=TIMESTAMP})
@@ -216,7 +216,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=SMALLINT},
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="sensorRegisterId != null" >
         #{sensorRegisterId,jdbcType=INTEGER},
@@ -257,4 +257,50 @@
     where terminal_id = #{terminalId}
     and port = #{port}
   </select>
+  <select id="selectList" parameterType="integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from serial_sensor
+    <if test="terminalId != null">
+      where terminal_id = #{terminalId}
+    </if>
+  </select>
+  <update id="updateBatch" parameterType="list">
+    update serial_sensor
+    <foreach collection="serialSensorList" index="index" item="item" separator=",">
+    <set >
+      <if test="item.sensorRegisterId != null" >
+        sensor_register_id = #{item.sensorRegisterId,jdbcType=INTEGER},
+      </if>
+      <if test="item.terminalId != null" >
+        terminal_id = #{item.terminalId,jdbcType=INTEGER},
+      </if>
+      <if test="item.port != null" >
+        port = #{item.port,jdbcType=VARCHAR},
+      </if>
+      <if test="item.address != null" >
+        address = #{item.address,jdbcType=VARCHAR},
+      </if>
+      <if test="item.baudrate != null" >
+        baudrate = #{item.baudrate,jdbcType=INTEGER},
+      </if>
+      <if test="item.model != null" >
+        model = #{item.model,jdbcType=BIT},
+      </if>
+      <if test="item.zero != null" >
+        zero = #{item.zero,jdbcType=BIT},
+      </if>
+      <if test="item.mark != null" >
+        mark = #{item.mark,jdbcType=VARCHAR},
+      </if>
+      <if test="item.createTime != null" >
+        create_time = #{item.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="item.updateTime != null" >
+        update_time = #{item.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
 </mapper>

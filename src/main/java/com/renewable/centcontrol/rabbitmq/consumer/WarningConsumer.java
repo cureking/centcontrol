@@ -28,15 +28,15 @@ public class WarningConsumer {
 
 
     // Warning 相关配置     // 这边警报的路由规则还是考虑一下吧，毕竟警报一定是订阅模型的，分发给多个消费者类型。
-    private static final String WARNING_EXCHANGE = "warning-exchange";
-    private static final String WARNING_QUEUE = "warning-inclination-queue";
-    private static final String WARNING_ROUTINETYPE = "topic";
-    private static final String WARNING_BINDINGKEY = "warning";
+    private static final String WARNING_TERMINAL2CENTCONTROL_EXCHANGE = "warning-exchange-terminal2centcontrol";
+    private static final String WARNING_TERMINAL2CENTCONTROL_QUEUE = "warning-inclination-queue-terminal2centcontrol";
+    private static final String WARNING_TERMINAL2CENTCONTROL_ROUTINETYPE = "topic";
+    private static final String WARNING_TERMINAL2CENTCONTROL_BINDINGKEY = "warning.inclination.terminal2centcontrol";
 
     @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = WARNING_QUEUE, declare = "true"),
-            exchange = @Exchange(value = WARNING_EXCHANGE, declare = "true", type = WARNING_ROUTINETYPE),
-            key = WARNING_BINDINGKEY
+            value = @Queue(value = WARNING_TERMINAL2CENTCONTROL_QUEUE, declare = "true"),
+            exchange = @Exchange(value = WARNING_TERMINAL2CENTCONTROL_EXCHANGE, declare = "true", type = WARNING_TERMINAL2CENTCONTROL_ROUTINETYPE),
+            key = WARNING_TERMINAL2CENTCONTROL_BINDINGKEY
     ))
     @RabbitHandler
     public void messageOnWarning(@Payload String warningListStr, @Headers Map<String, Object> headers, Channel channel) throws IOException {

@@ -117,7 +117,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <insert id="insertSelectiveAndReturnId"  parameterType="com.renewable.centcontrol.pojo.SensorRegister" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelectiveAndReturnId"  parameterType="com.renewable.centcontrol.pojo.SensorRegister" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
     insert into sensor_register
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -166,4 +166,36 @@
       </if>
     </trim>
   </insert>
+  <select id="listSensorRegisterByTerminalId" parameterType="integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from sensor_register
+    where terminal_id = #{terminalId}
+  </select>
+  <select id="listSensorRegister" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from sensor_register
+  </select>
+  <update id="updateBatch">
+    update sensor_register
+    <foreach collection="sensorRegisterList" index="index" item="item" separator=",">
+      <set>
+        <if test="item.terminalId != null">
+          terminal_id = #{item.item.terminalId,jdbcType=INTEGER},
+        </if>
+        <if test="item.sensorId != null">
+          sensor_id = #{item.sensorId,jdbcType=INTEGER},
+        </if>
+        <if test="item.nickname != null">
+          nickname = #{item.nickname,jdbcType=VARCHAR},
+        </if>
+        <if test="item.status != null">
+          status = #{item.status,jdbcType=TINYINT},
+        </if>
+        update_time = now()
+      </set>
+      where id = #{id,jdbcType=INTEGER}
+    </foreach>
+  </update>
 </mapper>

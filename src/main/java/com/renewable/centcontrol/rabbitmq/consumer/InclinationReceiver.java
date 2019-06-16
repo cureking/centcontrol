@@ -34,14 +34,11 @@ public class InclinationReceiver {
     private static final String INCLINATION_TOTAL_QUEUE = "inclination-total-data-queue";
     private static final String INCLINATION_TOTAL_ROUTINETYPE = "topic";
     private static final String INCLINATION_TOTAL_BINDINGKEY = "sensor.inclination.data.total";
-    private static final String INCLINATION_TOTAL_ROUTINGKEY = "sensor.inclination.data.total";
     //inclinationTotal 相关配置
     private static final String INCLINATION_INIT_EXCHANGE = "inclination-init-data-exchange";
     private static final String INCLINATION_INIT_QUEUE = "inclination-init-data-queue";
     private static final String INCLINATION_INIT_ROUTINETYPE = "topic";
     private static final String INCLINATION_INIT_BINDINGKEY = "sensor.inclination.data.init";
-    private static final String INCLINATION_INIT_ROUTINGKEY = "sensor.inclination.data.init";
-
 
     @RabbitListener(bindings = @QueueBinding(     // 要设置到底监听哪个QUEUE    还可以进行EXCHANGE,QUEUE,BINGDING
             value = @Queue(value = INCLINATION_TOTAL_QUEUE, declare = "true"),

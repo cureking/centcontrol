@@ -18,8 +18,7 @@ import java.io.IOException;
  * @Description：
  * @Author: jarry
  */
-//@WebFilter(urlPatterns = "/")
-//@Configuration
+
 @WebFilter(urlPatterns = "/", filterName = "sessionFilter")
 @Component
 public class SessionExpireFilter implements Filter {
@@ -35,7 +34,6 @@ public class SessionExpireFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-        System.out.println("SessionExpireFilter working ");
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
 
         String loginToken = CookieUtil.readLoginToken(httpServletRequest);

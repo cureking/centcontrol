@@ -38,6 +38,7 @@ public class ISensorRegisterServiceImpl implements ISensorRegisterService {
     @Autowired
     private IInitializationInclinationService iInitializationInclinationService;
 
+    @Override
     public ServerResponse updateSensorRegisteredStatusBySensorRegisterId(int sensorRegisterId, byte targetStatusCode) {
         // 1.校验数据
 
@@ -48,6 +49,45 @@ public class ISensorRegisterServiceImpl implements ISensorRegisterService {
         return this.updateSensorRegister(sensorRegisterUpdateStatus);
     }
 
+    @Override
+    public ServerResponse selectSensorRegisterById(Integer sensorRegisterId) {
+        if (sensorRegisterId == null){
+            return ServerResponse.createByErrorMessage("the sensorRegisterId is null !");
+        }
+
+        SensorRegister sensorRegister = null;
+        sensorRegister = sensorRegisterMapper.selectByPrimaryKey(sensorRegisterId);
+
+        if (sensorRegister == null){
+            return ServerResponse.createByErrorMessage("the sensorRegister is not exist with the id: " + sensorRegisterId);
+        }
+        return ServerResponse.createBySuccess(sensorRegister);
+    }
+
+    @Override
+    public ServerResponse listSensorRegisterByTerminalId(Integer terminalId) {
+        if (terminalId == null){
+            return ServerResponse.createByErrorMessage("the terminalId is null !");
+        }
+        List<SensorRegister> sensorRegisterList = null;
+        sensorRegisterList = sensorRegisterMapper.listSensorRegisterByTerminalId(terminalId);
+        if (sensorRegisterList == null || sensorRegisterList.size() == 0){
+            return ServerResponse.createByErrorMessage("there is no snesorRegister with the terminalId: "+terminalId);
+        }
+        return ServerResponse.createBySuccess(sensorRegisterList);
+    }
+
+    @Override
+    public ServerResponse listSensorRegister() {
+        List<SensorRegister> sensorRegisterList = null;
+        sensorRegisterList = sensorRegisterMapper.listSensorRegister();
+        if (sensorRegisterList == null || sensorRegisterList.size() == 0){
+            return ServerResponse.createByErrorMessage("there is no snesorRegister !");
+        }
+        return ServerResponse.createBySuccess(sensorRegisterList);
+    }
+
+    @Override
     public ServerResponse updateSensorRegister(SensorRegister sensorRegister) {
         if (sensorRegister == null) {
             log.warn("the sensorRegister is null ! the sensorRegister is {} .", sensorRegister);
@@ -64,6 +104,7 @@ public class ISensorRegisterServiceImpl implements ISensorRegisterService {
         return ServerResponse.createBySuccessMessage("the sensorRegister update success !");
     }
 
+    @Override
     public ServerResponse addSensorRegisterList(List<SensorRegister> sensorRegisterList){
         // 由于时间关系，这里先采用循环调用单数据add的方法。之后再写专门的batch方法（batch更有挑战，不是嘛）。循环调用，会加长流程，从而影响使用。不过就目前而言，0.1s与0.01s没什么区别
         if (sensorRegisterList == null || sensorRegisterList.size() == 0){
@@ -84,6 +125,7 @@ public class ISensorRegisterServiceImpl implements ISensorRegisterService {
         return ServerResponse.createBySuccessMessage("the sensorRegisterList has dealed .");
     }
 
+    @Override
     public ServerResponse insertSensorRegister(SensorRegister sensorRegister){
         // 1.校验数据
         if (sensorRegister == null){
@@ -117,15 +159,20 @@ public class ISensorRegisterServiceImpl implements ISensorRegisterService {
         sensorRegisterAdded.setStatus(SensorRegisterConstant.SensorRegisterStatusEnum.Running.getCode());   // 新增是否应该标记为初始状态，从而提醒相关工作人员进行初始化配置
 
         // 3.将数据保存至数据库
-        Integer insertedId = sensorRegisterMapper.insertSelectiveAndReturnId(sensorRegisterAdded);
-        if (insertedId == null){
+        int countRow = sensorRegisterMapper.insertSelectiveAndReturnId(sensorRegisterAdded);
+
+
+        if (countRow == 0){
             return ServerResponse.createByErrorMessage("the sensorRegister insert fail !");
         }
+        // 从sensorRegisterAdded中获取数据库主键
+        Integer insertedId = sensorRegisterAdded.getId();
 
         // 5.返回成功响应
         return ServerResponse.createBySuccess("sensorRegister has inserted .",insertedId);
     }
 
+    @Override
     public ServerResponse addSensorRegisterListBySerialSensorList(List<SerialSensor> serialSensorList){
         // 1.校验数据
         if (serialSensorList == null || serialSensorList.size() == 0){
@@ -142,6 +189,29 @@ public class ISensorRegisterServiceImpl implements ISensorRegisterService {
 
         // 3.返回成功响应
         return ServerResponse.createBySuccessMessage("the sensorRegisterList has dealed .");
+    }
+
+    @Override
+    public ServerResponse receiveSensorRegisterListFromMQ(List<SensorRegister> sensorRegisterList) {
+        // 1.校验
+        if (sensorRegisterList == null || sensorRegisterList.size() == 0){
+            return ServerResponse.createByErrorMessage("the sensorRegister list is null or its size is zero !");
+        }
+
+        // 2.判断列表中的数据是哪些是新增插入，哪些已有更新。返回两个列表，详见serialSensor相关操作
+        // 目前都是更新（初始数据记录的新增是自动注册那条线的）
+        List<SensorRegister> filterUpdateSensorRegisterList = sensorRegisterList;
+
+        // 3.对拆分出来的数据列表进行相关操作
+        // 3.1对更新列表中的数据进行更新  // 只有在更新列表不为空才进行下列操作
+        if (filterUpdateSensorRegisterList.size() != 0){
+            int countRow = sensorRegisterMapper.updateBatch(filterUpdateSensorRegisterList);
+            if (countRow == 0){
+                return ServerResponse.createByErrorMessage("filterUpdateInitializationInclinationList update fail !");
+            }
+        }
+
+        return ServerResponse.createBySuccessMessage("filterUpdateInitializationInclinationList update success .");
     }
 
     private ServerResponse addSensorRegisterBySerialSensor(SerialSensor serialSensor){

@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 public class JsonUtil {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
+    private static final String JSON_STANDARD_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     static {
         //对象的所有字段全部列入
@@ -33,7 +34,7 @@ public class JsonUtil {
         objectMapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
 
         //所有的日期格式都统一为以下的样式，即yyyy-MM-dd HH:mm:ss
-        objectMapper.setDateFormat(new SimpleDateFormat(DateTimeUtil.STANDARD_FORMAT));
+        objectMapper.setDateFormat(new SimpleDateFormat(JSON_STANDARD_FORMAT));
 
         //反序列化
         //忽略 在json字符串中存在，但是在java对象中不存在对应属性的情况。防止错误

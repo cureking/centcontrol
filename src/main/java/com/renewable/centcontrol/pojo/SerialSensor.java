@@ -3,7 +3,7 @@ package com.renewable.centcontrol.pojo;
 import java.util.Date;
 
 public class SerialSensor {
-    private Short id;
+    private Integer id;
 
     private Integer sensorRegisterId;
 
@@ -25,7 +25,7 @@ public class SerialSensor {
 
     private Date updateTime;
 
-    public SerialSensor(Short id, Integer sensorRegisterId, Integer terminalId, String port, String address, Integer baudrate, Boolean model, Boolean zero, String mark, Date createTime, Date updateTime) {
+    public SerialSensor(Integer id, Integer sensorRegisterId, Integer terminalId, String port, String address, Integer baudrate, Boolean model, Boolean zero, String mark, Date createTime, Date updateTime) {
         this.id = id;
         this.sensorRegisterId = sensorRegisterId;
         this.terminalId = terminalId;
@@ -43,11 +43,11 @@ public class SerialSensor {
         super();
     }
 
-    public Short getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

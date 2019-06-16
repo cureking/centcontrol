@@ -1,5 +1,8 @@
 package com.renewable.centcontrol.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.renewable.centcontrol.common.RedisTemplateUtil;
 import com.renewable.centcontrol.common.ServerResponse;
 import com.renewable.centcontrol.common.constant.SensorRegisterConstant;
@@ -50,6 +53,31 @@ public class IWarningServiceImpl implements IWarningService {
             return ServerResponse.createByErrorMessage("can't find the warning from DB by the Id: " + warningId);
         }
         return ServerResponse.createBySuccess(warning);
+    }
+
+    @Override
+    public ServerResponse listWarningWithPage(int pageNum, int pageSize, Integer terminalId, Integer sensorRegisterId) {
+        //第一步：startPage--start
+        PageHelper.startPage(pageNum, pageSize);
+
+        //第二步：填充自己的sql查询逻辑
+        List<Warning> warningList = warningMapper.selectListWithPageHelper(terminalId, sensorRegisterId);
+        if (warningList == null) {
+            return ServerResponse.createByErrorMessage("not found inclinationInit");
+        }
+
+        //这里由于业务简单，而且对数据隐蔽性要求不高，这里先不急着写VO了
+        //此处日后可扩展VO
+        List<Warning> warningVoList = Lists.newArrayList();
+        for (Warning warningItem : warningList) {
+            Warning warningVo = (Warning) warningItem;   // 可以建立assembleVo()，而不是强转
+            warningVoList.add(warningVo);
+        }
+
+        //第三步：pageHelper--收尾
+        PageInfo pageResult = new PageInfo(warningList);
+        pageResult.setList(warningVoList);
+        return ServerResponse.createBySuccess(pageResult);
     }
 
     public ServerResponse dealWarningFromMQByList(List<Warning> warningList) {
@@ -169,4 +197,19 @@ public class IWarningServiceImpl implements IWarningService {
         }
         return ServerResponse.createBySuccess(warningObjectSet);
     }
+
+    @Override
+    public ServerResponse testAddWarning() {
+        Warning warning = new Warning();
+        warning.setMark("TEST");
+        warning.setTerminalId(1);
+        warning.setSensorRegisterId(1000);
+        warning.setOriginId(6666666L);
+        warning.setCreateTime(new Date());
+        warning.setUpdateTime(new Date());
+
+
+        return this.singleWarningDealProcess(warning);
+    }
+
 }

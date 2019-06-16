@@ -1,6 +1,9 @@
 package com.renewable.centcontrol.dao;
 
 import com.renewable.centcontrol.pojo.SensorRegister;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface SensorRegisterMapper {
     int deleteByPrimaryKey(Integer id);
@@ -17,4 +20,10 @@ public interface SensorRegisterMapper {
 
     // custom
     Integer insertSelectiveAndReturnId(SensorRegister sensorRegister);
+
+    List<SensorRegister> listSensorRegisterByTerminalId(Integer terminalId);
+
+    List<SensorRegister> listSensorRegister();
+
+    int updateBatch(@Param("sensorRegisterList") List<SensorRegister> sensorRegisterList);
 }

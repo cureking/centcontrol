@@ -34,8 +34,6 @@ public class InitializationInclinationProducer {
             exchange = @Exchange(value = INITIALIZATION_INCLINATION_CENTCONTROL2TERMINAL_EXCHANGE, declare = "true", type = INITIALIZATION_INCLINATION__CENTCONTROL2TERMINAL_ROUTINETYPE),
             key = INITIALIZATION_INCLINATION__CENTCONTROL2TERMINAL_BINDINGKEY
     ))
-
-
     public void sendInitializationInclination(String initializationInclinationStr) throws Exception {
         MessageProperties messageProperties = new MessageProperties();
         messageProperties.setContentType(MessageProperties.CONTENT_TYPE_TEXT_PLAIN);

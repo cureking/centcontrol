@@ -14,7 +14,7 @@ import java.util.Date;
 public class DateTimeUtil {
 
     //设定标准格式
-    public static final String STANDARD_FORMAT = "yyyy-mm-dd HH:mm:ss";
+    public static final String STANDARD_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     //joda-time
     //Str - > Date
@@ -35,6 +35,7 @@ public class DateTimeUtil {
 
     //重载
     public static Date strToDate(String dateTimeStr) {
+        // 如 2015-04-27 15:45:57        // 直接写在URL中时，不需要引号
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(STANDARD_FORMAT);
         DateTime dateTime = dateTimeFormatter.parseDateTime(dateTimeStr);
         return dateTime.toDate();

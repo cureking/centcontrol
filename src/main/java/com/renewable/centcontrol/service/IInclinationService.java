@@ -21,7 +21,7 @@ public interface IInclinationService {
 
     ServerResponse<PageInfo> listTotalDataByPage(int pageNum, int pageSize, int terminalId, int sensorId);
 
-    ServerResponse<List<Object>> listTotalDataByTime(String startTime, String endTime, int terminalId, int sensorId);
+    ServerResponse<List<Object>> listTotalDataByTime(String startTime, String endTime, Integer terminalId, Integer sensorId);
 
     ServerResponse getTotalDataById(long inclinationTotalId);
 

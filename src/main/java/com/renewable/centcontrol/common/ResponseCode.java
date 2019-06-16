@@ -8,6 +8,7 @@ public enum ResponseCode {
     //控制层响应
     SUCCESS(0, "SUCCESS"),
     ERROR(1, "ERROR"),
+    NEED_AUTHORITY(9,"NEED_AUTHORITY"),
     NEED_LOGIN(10, "NEED_LOGIN"),
     ILLEAGAL_ARGUMENT(2, "ILLEAGAL ARGUMENT");
 

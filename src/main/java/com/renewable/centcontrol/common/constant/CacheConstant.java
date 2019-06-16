@@ -9,7 +9,7 @@ public class CacheConstant {
 
     public static final int DAY_PERIOD = 60 * 60 * 24;
 
-    // GuavaCache中TerminalConfig的相关
+    /**  GuavaCache中TerminalConfig的相关 **/
     public static final String TERMINAL_ID = "terminal_id";
     public static final String TERMINAL_PROJECT_ID = "terminal_project_id";
     public static final String TERMINAL_IP = "terminal_ip";
@@ -20,13 +20,13 @@ public class CacheConstant {
     public static final String TERMINAL_CREATE_TIME = "terminal_create_time";
     public static final String TERMINAL_UPDATE_TIME = "terminal_update_time";
 
-    // Warning 在缓存中的前缀
+    /** Warning 在缓存中的前缀 **/
     public static final String WARNING_PREFIX = "warning_prefix_";
-    // WarningSet 在缓存中的名称
+    /** WarningSet 在缓存中的名称 **/
     public static final String WARNING_SET_KEY = "current_set";
 
-    // WarningEliminate 在缓存中的前缀
+    /** WarningEliminate 在缓存中的前缀 **/
     public static final String WARNING_ELIMINATE_PREFIX = "warning_eliminate_prefix_";
-    // WarningEliminateSet 在缓存中的名称
+    /** WarningEliminateSet 在缓存中的名称 **/
     public static final String WARNING_ELIMINATE_SET_KEY = "current_set";
 }

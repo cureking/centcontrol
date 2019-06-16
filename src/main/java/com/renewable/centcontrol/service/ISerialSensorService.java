@@ -11,6 +11,12 @@ import java.util.List;
  */
 public interface ISerialSensorService {
 
+    ServerResponse listSerialSensor(int pageNum, int pageSize, Integer terminalId);
+
+    ServerResponse getSerialSensor(Integer serialSensorId);
+
+    ServerResponse updateByUser(SerialSensor serialSensor);
+
     ServerResponse dealSerialSensorListFromMQ(List<SerialSensor> serialSensorList);
 
     ServerResponse addSerialSensor(SerialSensor serialSensor);

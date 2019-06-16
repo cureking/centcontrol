@@ -159,4 +159,17 @@
     and create_time = #{lastCreateTime}
     limit 1
   </select>
+  <select id="selectListWithPageHelper" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from warning
+    <where>
+      <if test="terminalId != null">
+        and terminal_id = #{terminalId}
+      </if>
+      <if test="terminalId != null">
+        and sensor_register_id = #{sensorRegisterId}
+      </if>
+    </where>
+  </select>
 </mapper>

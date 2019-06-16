@@ -40,14 +40,9 @@ public class UserManageController {
         if (response.isSuccess()) {
             User user = response.getData();
             if (user.getRole() == Const.Role.ROLE_ADMIN) {
-                //说明登录的是管理员
-//                session.setAttribute(Const.CURRENT_USER,user);
-
-                //新增redis共享cookie，session的方式
+                // 说明登录的是管理员
                 CookieUtil.writeLoginToken(httpServletResponse, session.getId());
                 redisTemplateUtil.setEx(session.getId(), JsonUtil.obj2String(response.getData()), RedisConstant.RedisCacheExtime.REDIS_SESSION_EXTIME);
-
-                User userTest = JsonUtil.string2Obj(redisTemplateUtil.get(session.getId()), User.class);
                 return response;
             } else {
                 return ServerResponse.createByErrorMessage("不是管理员,无法登录");

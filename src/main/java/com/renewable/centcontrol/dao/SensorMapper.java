@@ -2,6 +2,8 @@ package com.renewable.centcontrol.dao;
 
 import com.renewable.centcontrol.pojo.Sensor;
 
+import java.util.List;
+
 public interface SensorMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,7 @@ public interface SensorMapper {
     int updateByPrimaryKeySelective(Sensor record);
 
     int updateByPrimaryKey(Sensor record);
+
+    // custom
+    List<Sensor> listSensor();
 }

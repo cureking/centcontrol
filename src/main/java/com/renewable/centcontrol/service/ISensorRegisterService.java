@@ -12,13 +12,23 @@ import java.util.List;
  */
 public interface ISensorRegisterService {
 
-    ServerResponse updateSensorRegisteredStatusBySensorRegisterId(int sensorRegisterId, byte targetStatusCode);
+    // out
+    ServerResponse selectSensorRegisterById(Integer sensorRegisterId);
+
+    ServerResponse listSensorRegisterByTerminalId(Integer terminalId);
+
+    ServerResponse listSensorRegister();
 
     ServerResponse updateSensorRegister(SensorRegister sensorRegister);
+
+
+    ServerResponse updateSensorRegisteredStatusBySensorRegisterId(int sensorRegisterId, byte targetStatusCode);
 
     ServerResponse addSensorRegisterList(List<SensorRegister> sensorRegisterList);
 
     ServerResponse insertSensorRegister(SensorRegister sensorRegister);
 
     ServerResponse addSensorRegisterListBySerialSensorList(List<SerialSensor> serialSensorList);
+
+    ServerResponse receiveSensorRegisterListFromMQ(List<SensorRegister> sensorRegisterList);
 }

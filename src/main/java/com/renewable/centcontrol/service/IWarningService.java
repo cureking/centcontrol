@@ -13,11 +13,15 @@ public interface IWarningService {
 
     ServerResponse getWarningById(int warningId);
 
+    ServerResponse listWarningWithPage(int pageNum, int pageSize, Integer terminalId, Integer sensorRegisterId);
+
     ServerResponse dealWarningFromMQByList(List<Warning> warningList);
 
-    // 也许只用于内部使用
     ServerResponse singleWarningDealProcess(Warning warning);
 
     ServerResponse listWarningSetFromCache();
+
+    // test
+    ServerResponse testAddWarning();
 
 }
